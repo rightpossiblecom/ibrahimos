@@ -6,7 +6,7 @@
 | Asset | Status |
 | ----- | ------ |
 | Registration / CAC certificate image | **Done** — rendered from owner PDF → `public/product/cac-certificate.jpg` (+ `public/cac-certificate.pdf`) |
-| Demo walkthrough (`public/product/demo.mp4`) | Still missing — section gated on `/product` until owner drops video or writes a waiver |
+| Demo walkthrough (`public/product/demo.mp4`) | **Done** — owner export video copied in |
 | Product screenshots (`public/product/shot-0N.png`) | **Done** — 6 dashboard captures via `pnpm shots` |
 | Logo / mark | Not provided — text brand mark |
 | Founders + LinkedIn | **Done** — Ibrahim Nurudeen + Ifeoluwa Johz in `config/site.ts` |

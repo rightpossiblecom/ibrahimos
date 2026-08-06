@@ -46,7 +46,8 @@ See [INTAKE_CONTRACT.md](./INTAKE_CONTRACT.md) — shared shape for analyze, pro
 
 | Name | Role | LinkedIn URL |
 | ---- | ---- | ------------ |
-| Ibrahim Nurudeen | Founder | https://www.linkedin.com/in/ibrahim-nurudeen-375b55267/ |
+| Adisa Abdulrazaq Kehinde | Founder & CEO | https://www.linkedin.com/in/abdulrazaqme/ |
+| Ibrahim Nurudeen | Co-founder | https://www.linkedin.com/in/ibrahim-nurudeen-375b55267/ |
 | Ifeoluwa Johz | Co-founder | https://www.linkedin.com/in/ifeoluwajohz/ |
 
 ## Lead forms

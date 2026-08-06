@@ -8,7 +8,7 @@
 | Blocker | Status | Notes |
 | ------- | ------ | ----- |
 | Landing all 14 required sections | Pass | Full section set on `/` |
-| `/product` video + ≥4 shots + CAC image + how-it-works + capabilities | **Almost** | Shots (6) + CAC image shipped; **demo.mp4 still missing** |
+| `/product` video + ≥4 shots + CAC image + how-it-works + capabilities | Pass | demo.mp4 + 6 shots + CAC image |
 | `/team` ≥2 real founders + LinkedIn + bios | Pass | Ibrahim Nurudeen + Ifeoluwa Johz |
 | About / pricing / waitlist / demo / early-access / privacy / terms | Pass | |
 | Marketing chrome zero app/auth links | Pass | |

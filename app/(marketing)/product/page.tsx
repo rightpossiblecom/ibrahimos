@@ -102,9 +102,6 @@ export default function ProductPage() {
             <h2 className="mt-3 font-display text-3xl font-semibold text-ink">
               Product gallery
             </h2>
-            <p className="mt-3 max-w-2xl text-ink-muted">
-              At least four labeled product stills from the live workspace.
-            </p>
             {shotCount >= 4 ? (
               <div className="mt-10 grid gap-4 sm:grid-cols-2">
                 {media.screenshots.map((src, i) => (

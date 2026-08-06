@@ -135,9 +135,15 @@ export const siteConfig = {
   ],
   team: [
     {
+      name: "Adisa Abdulrazaq Kehinde",
+      role: "Founder & CEO",
+      bio: "Founder and CEO of IbrahimOS. Leading the vision for an AI farm operating system that helps African farmers produce more, lose less, and earn more each season.",
+      linkedin: "https://www.linkedin.com/in/abdulrazaqme/",
+    },
+    {
       name: "Ibrahim Nurudeen",
-      role: "Founder",
-      bio: "Founder of IbrahimOS and Ibrahim's Agricultural Enterprise. Focused on building an AI farm assistant that helps African farmers catch crop problems earlier, keep better records, and earn more each season.",
+      role: "Co-founder",
+      bio: "Co-founder of IbrahimOS and Ibrahim's Agricultural Enterprise. Focused on building an AI farm assistant that helps African farmers catch crop problems earlier, keep better records, and earn more each season.",
       linkedin: "https://www.linkedin.com/in/ibrahim-nurudeen-375b55267/",
     },
     {

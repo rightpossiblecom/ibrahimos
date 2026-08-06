@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# oversized / raw asset dumps (use compressed copies under public/product/)
+public/demogif.gif
+public/Screenshot*.png
+public/Screenshot*.jpg
+/CERTIFICATE*.pdf
+/CERTIFICATE*.PDF

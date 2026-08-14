@@ -71,6 +71,7 @@ export function MarketingFooter() {
           <p>
             © {siteConfig.foundedYear} {siteConfig.brandName}
             {siteConfig.legalEntity ? ` · ${siteConfig.legalEntity}` : ""}
+            {` · ${siteConfig.domain}`}
           </p>
           <div className="flex gap-4">
             <Link href="/privacy" className="hover:text-accent">

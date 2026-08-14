@@ -237,8 +237,8 @@ export default function ProductPage() {
         </section>
       </main>
       <MarketingCtaBand
-        title="Request a product demo"
-        body="See disease intake, farm overview, and conversion flows on a live walkthrough."
+        title="Open IbrahimOS"
+        body="Log in to run a disease check, or create an account to keep farm records."
       />
     </>
   );

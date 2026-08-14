@@ -15,16 +15,15 @@ export default function PrivacyPage() {
       </h1>
       <p className="mt-6 leading-relaxed text-ink-muted">
         {entity} (“we”) operates {siteConfig.brandName}. This page explains how
-        we handle information you share through our marketing forms and product
-        demos.
+        we handle information you share when you create an account or contact us.
       </p>
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">
         What we collect
       </h2>
       <p className="mt-3 leading-relaxed text-ink-muted">
-        When you join the waitlist, book a demo, or request early access, we
-        collect the details you submit — typically name, email, and optional
-        phone, farm or organisation name, and message.
+        When you create an account or contact us, we collect the details you
+        submit — typically name, email, and optional phone, farm or organisation
+        name, and message.
       </p>
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">
         How we use it

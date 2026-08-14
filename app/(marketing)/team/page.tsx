@@ -88,7 +88,7 @@ export default function TeamPage() {
       </main>
       <MarketingCtaBand
         title="Talk to the team"
-        body="Book a demo for your farm, cooperative, or partner program."
+        body="Log in for your farm, or talk to sales for a cooperative or partner program."
       />
     </>
   );

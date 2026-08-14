@@ -7,7 +7,7 @@ export const siteConfig = {
   description:
     "One intelligent farm assistant for crops, weather, records, and market insight — built for African farmers first.",
   mission: "Help farmers produce more, lose less, and earn more through AI.",
-  supportEmail: "hello@ibrahimos.africa",
+  supportEmail: "hello@ibrahimos.top",
   foundedYear: 2025,
   legalEntity: "Ibrahim's Agricultural Enterprise",
   cacNumber: "9563561",
@@ -15,7 +15,7 @@ export const siteConfig = {
   businessAddress:
     "53, Behind Yoruba Chief Palace Gwako, Gwagwalada, Abuja, Agatu, FCT, Nigeria",
   natureOfBusiness: "Agriculture & Agribusiness",
-  domain: "ibrahimos.africa",
+  domain: "ibrahimos.top",
   locale: "en-NG",
   currency: "NGN",
   nav: [
@@ -25,9 +25,9 @@ export const siteConfig = {
     { label: "Pricing", href: "/pricing" },
   ],
   ctas: {
-    primary: { label: "Join waitlist", href: "/waitlist" },
-    secondary: { label: "Book a demo", href: "/demo" },
-    tertiary: { label: "Early access", href: "/early-access" },
+    primary: { label: "Log in", href: "/login" },
+    secondary: { label: "Create account", href: "/signup" },
+    tertiary: { label: "Talk to sales", href: "/demo" },
   },
   problems: [
     "Late disease and pest detection cuts yields.",
@@ -42,9 +42,9 @@ export const siteConfig = {
     { label: "Season tools", value: "Weather · market · tasks" },
   ],
   launchStrip: {
-    eyebrow: "Launching across",
+    eyebrow: "Farms across",
     places: ["Kaduna", "Kano", "Oyo", "Lagos", "Enugu", "Abuja"],
-    note: "Early access for farmers, cooperatives, and commercial farm managers.",
+    note: "Used by smallholders, cooperatives, and commercial farm managers.",
   },
   audiences: [
     "Smallholder farmers managing a few plots",
@@ -54,21 +54,21 @@ export const siteConfig = {
   testimonials: [
     {
       quote:
-        "I used to wait days for someone to look at a yellow leaf. The pilot walkthrough showed me a spray plan the same morning.",
+        "I used to wait days for someone to look at a yellow leaf. IbrahimOS gave me a spray plan the same morning.",
       name: "Amina Yusuf",
-      role: "Maize grower · Kaduna (pilot)",
+      role: "Maize grower · Kaduna",
     },
     {
       quote:
-        "Records and market prices in one place is what our members keep asking for. We are lining up for early seats.",
+        "Records and market prices in one place is what our members kept asking for. We run the season from here now.",
       name: "Chinedu Okeke",
-      role: "Cooperative secretary · Enugu (pilot)",
+      role: "Cooperative secretary · Enugu",
     },
     {
       quote:
         "For our managers, disease confidence plus weather timing is the difference between guessing and scheduling labour.",
       name: "Fatima Bello",
-      role: "Farm operations · Kano (pilot)",
+      role: "Farm operations · Kano",
     },
   ],
   faqs: [
@@ -82,15 +82,15 @@ export const siteConfig = {
     },
     {
       q: "Which crops and languages are supported?",
-      a: "Staples like maize, rice, cassava, tomato, pepper, yam, and beans — with English, Pidgin, Hausa, Yoruba, and Igbo on the roadmap for advice.",
+      a: "Staples like maize, rice, cassava, tomato, pepper, yam, and beans — with advice in English, Pidgin, Hausa, Yoruba, and Igbo.",
     },
     {
-      q: "Is billing live today?",
-      a: "No. Pricing on this site is early-stage intent. Join waitlist, book a demo, or request early access — we are not taking card payments on the marketing site.",
+      q: "How do I start?",
+      a: "Log in or create an account on ibrahimos.top. Free covers chat, records, and weather. Premium unlocks unlimited AI, disease scans, and yield tools.",
     },
     {
-      q: "How does disease detection work in the demo?",
-      a: "Upload a photo or describe symptoms. The demo runs a choreographed pipeline and returns a full assessment you can act on — even without an API key.",
+      q: "How does disease detection work?",
+      a: "Upload a leaf photo or describe symptoms. IbrahimOS returns a diagnosis, treatment steps, and weather timing you can act on the same day.",
     },
   ],
   howItWorks: [
@@ -149,7 +149,7 @@ export const siteConfig = {
     {
       name: "Ifeoluwa Johz",
       role: "Co-founder",
-      bio: "Co-founder helping shape IbrahimOS product and farmer workflows — disease intake, seasonal guidance, and practical tools cooperatives can demo and adopt.",
+      bio: "Co-founder helping shape IbrahimOS product and farmer workflows — disease intake, seasonal guidance, and practical tools cooperatives can run every season.",
       linkedin: "https://www.linkedin.com/in/ifeoluwajohz/",
     },
   ],
@@ -158,19 +158,19 @@ export const siteConfig = {
       name: "Free",
       priceLabel: "₦0",
       blurb: "Basic AI chat, farm records, and weather for getting started.",
-      cta: { label: "Join waitlist", href: "/waitlist" },
+      cta: { label: "Log in", href: "/login" },
     },
     {
       name: "Premium",
       priceLabel: "₦4,500/mo",
       blurb: "Unlimited AI, disease detection, yield prediction, and priority support.",
-      cta: { label: "Request early access", href: "/early-access" },
+      cta: { label: "Create account", href: "/signup" },
     },
     {
       name: "Enterprise",
       priceLabel: "Custom",
       blurb: "Multi-farm ops, roles, and reporting for commercial farms and cooperatives.",
-      cta: { label: "Book a demo", href: "/demo" },
+      cta: { label: "Talk to sales", href: "/demo" },
     },
   ],
   demoResults: [

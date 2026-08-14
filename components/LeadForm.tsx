@@ -111,7 +111,7 @@ export function LeadForm({ form }: Props) {
             placeholder="e.g. Cooperative lead"
           />
           <TextArea
-            label="Why are you a fit for early access?"
+            label="What do you need help with?"
             name="intent"
           />
         </>
@@ -139,9 +139,9 @@ function optional(value: FormDataEntryValue | null): string | undefined {
 }
 
 function submitLabel(form: LeadFormId): string {
-  if (form === "waitlist") return "Join waitlist";
-  if (form === "demo") return "Request demo";
-  return "Request early access";
+  if (form === "waitlist") return "Continue";
+  if (form === "demo") return "Request walkthrough";
+  return "Send message";
 }
 
 function Field({

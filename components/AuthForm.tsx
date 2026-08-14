@@ -45,7 +45,9 @@ export function AuthForm({ mode }: Props) {
           {title}
         </h1>
         <p className="mt-2 text-sm text-ink-muted">
-          Demo access — any email and password works.
+          {mode === "login"
+            ? "Sign in to open your fields, records, and farm assistant."
+            : "Create an account to start a disease check and keep farm records."}
         </p>
         <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate>
           <label className="block">

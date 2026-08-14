@@ -25,8 +25,8 @@ export default function PricingPage() {
               multi-farm operations.
             </p>
             <p className="mt-4 max-w-xl text-sm text-ink-muted">
-              Early-stage pricing — not live billing. CTAs go to waitlist, demo,
-              or early access only.
+              Log in for Free. Create an account for Premium. Talk to sales for
+              multi-farm Enterprise.
             </p>
           </div>
         </section>
@@ -61,15 +61,15 @@ export default function PricingPage() {
             ))}
           </div>
           <p className="mt-10 max-w-2xl text-sm leading-relaxed text-ink-muted">
-            Marketplace commissions and financing partnerships arrive as those
-            modules open. Early access seats get priority on Premium features —
-            disease detection, unlimited AI, and yield prediction.
+            Marketplace and financing modules sit alongside Premium — disease
+            detection, unlimited AI, and yield prediction — when your farm is
+            ready for them.
           </p>
         </section>
       </main>
       <MarketingCtaBand
         title="Not sure which plan?"
-        body="Book a demo and we will map Free vs Premium to how your farm actually runs."
+        body="Log in to try Free, or talk to sales and we will map Premium to how your farm actually runs."
       />
     </>
   );

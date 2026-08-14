@@ -89,8 +89,8 @@ export default function AboutPage() {
         </section>
       </main>
       <MarketingCtaBand
-        title="Work with us on early access"
-        body="Cooperatives, commercial farms, and partners can book a walkthrough of the full farm OS."
+        title="Work with us"
+        body="Cooperatives, commercial farms, and partners can log in or book a walkthrough of the full farm OS."
       />
     </>
   );

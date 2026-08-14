@@ -218,14 +218,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 10. Testimonials — early/pilot framed */}
+      {/* 10. Testimonials */}
       <section className="border-t border-line bg-bg">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <p className="text-sm font-semibold uppercase tracking-wider text-accent">
-            Early voices
+            From the field
           </p>
           <h2 className="mt-3 font-display text-3xl font-semibold text-ink">
-            From pilot walkthroughs
+            Farmers who run the season here
           </h2>
           <ul className="mt-10 grid gap-8 md:grid-cols-3">
             {siteConfig.testimonials.map((item) => (
@@ -245,14 +245,14 @@ export default function HomePage() {
       <section className="border-t border-line bg-bg-elevated">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <p className="text-sm font-semibold uppercase tracking-wider text-accent">
-            Pricing preview
+            Pricing
           </p>
           <h2 className="mt-3 font-display text-3xl font-semibold text-ink">
-            Early-stage plans — not live billing
+            Start free. Upgrade when the field needs more.
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-ink-muted">
-            These tiers show intent. CTAs go to waitlist, demo, or early access —
-            no card checkout on this site.
+            Log in to use Free. Create an account for Premium disease scans and
+            yield tools. Enterprise is for multi-farm ops.
           </p>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {siteConfig.pricing.map((tier) => (
@@ -285,21 +285,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 12. Get in early — three lead cards */}
+      {/* 12. Get started */}
       <section className="border-t border-line bg-bg">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <p className="text-sm font-semibold uppercase tracking-wider text-accent">
-            Get in early
+            Get started
           </p>
           <h2 className="mt-3 font-display text-3xl font-semibold text-ink">
-            Choose how you want to join
+            Open the farm OS
           </h2>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {(
               [
-                ["primary", "For farmers ready to join the first seats."],
-                ["secondary", "For cooperatives and commercial teams that want a walkthrough."],
-                ["tertiary", "For operators who need Premium AI and disease tools first."],
+                ["primary", "Already farming with IbrahimOS? Open your fields and records."],
+                ["secondary", "New here? Create an account and run your first disease check."],
+                ["tertiary", "Cooperatives and commercial teams — talk through multi-farm ops."],
               ] as const
             ).map(([key, blurb]) => {
               const cta = siteConfig.ctas[key];
@@ -354,7 +354,7 @@ export default function HomePage() {
       {/* 14. Final CTA banner */}
       <MarketingCtaBand
         title={`Bring ${siteConfig.brandName} to your farm`}
-        body="Join the waitlist for farmer seats, or book a demo for your cooperative or commercial operation."
+        body="Log in to open your fields, or create an account to start a disease check today."
       />
     </>
   );

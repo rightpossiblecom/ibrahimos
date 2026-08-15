@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 export function MarketingFooter() {
   return (
     <footer className="mt-auto border-t border-line bg-bg-elevated">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4">
         <div>
           <BrandMark className="text-lg" />
           <p className="mt-2 max-w-xs text-sm text-ink-muted">
@@ -14,10 +14,24 @@ export function MarketingFooter() {
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
-            Explore
+            Product
           </p>
           <ul className="mt-3 space-y-2 text-sm">
             {siteConfig.nav.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="text-ink hover:text-accent">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
+            Resources
+          </p>
+          <ul className="mt-3 space-y-2 text-sm">
+            {siteConfig.footerNav.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="text-ink hover:text-accent">
                   {item.label}

@@ -20,10 +20,89 @@ export const siteConfig = {
   currency: "NGN",
   nav: [
     { label: "Product", href: "/product" },
-    { label: "About", href: "/about" },
-    { label: "Team", href: "/team" },
+    { label: "Solutions", href: "/solutions" },
+    { label: "Customers", href: "/customers" },
     { label: "Pricing", href: "/pricing" },
+    { label: "Resources", href: "/resources" },
+    { label: "About", href: "/about" },
   ],
+  footerNav: [
+    { label: "Features", href: "/features" },
+    { label: "Help", href: "/help" },
+    { label: "Blog", href: "/blog" },
+    { label: "Security", href: "/security" },
+    { label: "Team", href: "/team" },
+  ],
+  solutions: [
+    {
+      title: "Smallholder plots",
+      body: "Photo a leaf, get a spray plan, and keep planting dates without a notebook. Built for a first smartphone.",
+    },
+    {
+      title: "Commercial farm managers",
+      body: "Disease confidence, weather windows, and labour timing across fields — one assistant instead of scattered WhatsApp threads.",
+    },
+    {
+      title: "Cooperatives",
+      body: "Shared records and market prices so members sell with the same numbers, not rumours from the last market day.",
+    },
+  ],
+  resources: [
+    { title: "Help center", href: "/help", body: "Answers on crops, languages, offline use, and getting started." },
+    { title: "Product features", href: "/features", body: "Assistant, disease checks, records, weather, and market prices." },
+    { title: "Blog", href: "/blog", body: "Season notes from the field — blight, fertilizer, and market timing." },
+    { title: "Security", href: "/security", body: "How farm photos, records, and accounts are handled." },
+    { title: "Team", href: "/team", body: "The people building IbrahimOS in Abuja and across the farms." },
+    { title: "Talk to sales", href: "/demo", body: "Multi-farm and cooperative walkthroughs." },
+  ],
+  blogPosts: [
+    {
+      slug: "northern-blight-before-the-rains",
+      title: "Catch northern blight before the rains lock in",
+      date: "12 Aug 2026",
+      excerpt:
+        "Humid nights in Kaduna and Kano are when maize lesions spread. A same-morning photo check beats waiting for an extension visit.",
+      body: "Northern corn leaf blight likes wet nights and crowded stands. If lower leaves show long grey-brown lesions, treat before the next rain window — mancozeb or propiconazole at label rate, then strip the worst leaves. IbrahimOS scores the photo, names the disease, and tells you whether Thursday rain is a spray-or-wait call. Hold heavy nitrogen until the infection settles, then side-dress. Untreated, you can give up 10–25% of the season.",
+    },
+    {
+      slug: "when-to-sell-maize-this-month",
+      title: "When to sell maize this month",
+      date: "4 Aug 2026",
+      excerpt:
+        "Market prices move faster than village talk. Compare Kaduna, Lagos, and Enugu before you load the bags.",
+      body: "Selling on the first offer from the nearest aggregator is how cooperatives leave money on the floor. Open market prices in IbrahimOS, set the crop to maize, and read the spread across the cities you can actually reach. If Lagos is paying a real premium after transport, move. If the gap is thinner than diesel, hold and watch the next week. Records from the last sale sit next to the quote so you are not guessing from memory.",
+    },
+    {
+      slug: "offline-habits-for-the-field",
+      title: "Offline habits that still keep a farm record",
+      date: "22 Jul 2026",
+      excerpt:
+        "You do not need a signal in the far plot. Capture the field, sync when you hit the road.",
+      body: "Field work happens where bars drop. Log the crop, planting date, and what you see while you are standing in the row. Photos queue on the phone. When you reach the junction or the house Wi-Fi, IbrahimOS syncs the assessment and pulls weather plus market updates. The point is a record you can open next week — not a chatbot that dies when MTN drops.",
+    },
+  ],
+  security: {
+    intro:
+      "Farm photos, field records, and account details stay in your IbrahimOS workspace. We collect what you submit to run disease checks and keep the season in one place.",
+    points: [
+      {
+        title: "Accounts",
+        body: "Sign in with your email. You are responsible for activity on that account. Sign out on shared phones.",
+      },
+      {
+        title: "Field photos",
+        body: "Leaf and plot photos are used to return a diagnosis and treatment steps. Only upload images from fields you manage.",
+      },
+      {
+        title: "Records",
+        body: "Crops, planting dates, and assessments stay in your workspace on this device. Treat a shared handset as a shared farm book.",
+      },
+      {
+        title: "Questions",
+        body: "Privacy and data questions go to hello@ibrahimos.top.",
+      },
+    ],
+  },
   ctas: {
     primary: { label: "Log in", href: "/login" },
     secondary: { label: "Create account", href: "/signup" },

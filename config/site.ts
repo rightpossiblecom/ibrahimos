@@ -20,18 +20,17 @@ export const siteConfig = {
   currency: "NGN",
   nav: [
     { label: "Product", href: "/product" },
-    { label: "Solutions", href: "/solutions" },
-    { label: "Customers", href: "/customers" },
+    { label: "How it works", href: "/how-it-works" },
+    { label: "Season notes", href: "/season-notes" },
     { label: "Pricing", href: "/pricing" },
-    { label: "Resources", href: "/resources" },
+    { label: "The farm", href: "/the-farm" },
     { label: "About", href: "/about" },
+    { label: "Team", href: "/team" },
   ],
   footerNav: [
-    { label: "Features", href: "/features" },
     { label: "Help", href: "/help" },
-    { label: "Blog", href: "/blog" },
+    { label: "Journal", href: "/blog" },
     { label: "Security", href: "/security" },
-    { label: "Team", href: "/team" },
   ],
   solutions: [
     {

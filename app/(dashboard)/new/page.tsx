@@ -47,7 +47,7 @@ export default function NewAssessmentPage() {
 
     if (!res.ok) {
       setRunning(false);
-      setError("Could not finish the assessment. Try again.");
+      setError("Could not finish the incident intake. Try again.");
       return;
     }
 
@@ -106,11 +106,9 @@ export default function NewAssessmentPage() {
     <>
       <PipelineOverlay active={running} stepIndex={stepIndex} />
       <main className="px-4 py-8 sm:px-6">
-        <h1 className="font-display text-3xl font-semibold text-ink">
-          New assessment
-        </h1>
+        <h1 className="font-display text-3xl font-semibold text-ink">New incident</h1>
         <p className="mt-1 text-sm text-ink-muted">
-          Upload a crop photo or describe what you see in the field
+          Upload a crop photo or describe what you see to open an incident
         </p>
 
         <div className="mt-6 flex gap-2">
@@ -133,12 +131,12 @@ export default function NewAssessmentPage() {
         >
           {mode === "upload" ? (
             <label className="block">
-              <span className="text-sm font-medium text-ink">Crop photo</span>
+              <span className="text-sm font-medium text-ink">Incident photo</span>
               <input
                 name="image"
                 type="file"
                 accept="image/*"
-                className="mt-1.5 block w-full text-sm text-ink-muted file:mr-3 file:rounded-md file:border-0 file:bg-accent file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white"
+                className="mt-1.5 block w-full text-sm text-ink-muted file:mr-3 file:rounded-md file:border-0 file:bg-accent file:px-3 file:py-2 file:text-sm file:font-semibold file:text-gold-ink"
               />
             </label>
           ) : null}
@@ -213,7 +211,7 @@ export default function NewAssessmentPage() {
             disabled={running}
             className="rounded-md bg-gold px-5 py-3 text-sm font-semibold text-gold-ink hover:opacity-90 disabled:opacity-60"
           >
-            {running ? "Analyzing…" : "Run assessment"}
+            {running ? "Analyzing…" : "Open incident"}
           </button>
         </form>
       </main>
@@ -236,7 +234,7 @@ function ModeButton({
       onClick={onClick}
       className={
         active
-          ? "rounded-md bg-accent px-4 py-2 text-sm font-semibold text-white"
+          ? "rounded-md bg-accent px-4 py-2 text-sm font-semibold text-gold-ink"
           : "rounded-md border border-line bg-bg-elevated px-4 py-2 text-sm font-semibold text-ink-muted"
       }
     >

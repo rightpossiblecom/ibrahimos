@@ -38,7 +38,7 @@ export function AuthForm({ mode }: Props) {
   return (
     <main className="flex min-h-full flex-1 items-center justify-center px-4 py-16">
       <div className="w-full max-w-md border border-line bg-bg-elevated p-8">
-        <p className="font-display text-lg font-semibold text-accent-deep">
+        <p className="font-display text-lg font-semibold text-accent">
           {siteConfig.brandName}
         </p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-ink">

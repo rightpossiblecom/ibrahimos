@@ -130,7 +130,7 @@ export default function HomePage() {
           <ol className="mt-10 grid gap-10 md:grid-cols-3">
             {siteConfig.howItWorks.map((step, index) => (
               <li key={step.title}>
-                <p className="font-display text-2xl font-semibold text-accent-deep">
+                <p className="font-display text-2xl font-semibold text-accent">
                   {index + 1}
                 </p>
                 <h3 className="mt-3 font-display text-xl font-semibold text-ink">
@@ -263,7 +263,7 @@ export default function HomePage() {
                 <h3 className="font-display text-xl font-semibold text-ink">
                   {tier.name}
                 </h3>
-                <p className="mt-2 font-display text-2xl font-semibold text-accent-deep">
+                <p className="mt-2 font-display text-2xl font-semibold text-accent">
                   {tier.priceLabel}
                 </p>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-muted">
@@ -316,7 +316,7 @@ export default function HomePage() {
                   </p>
                   <Link
                     href={cta.href}
-                    className="mt-6 inline-flex justify-center rounded-md bg-accent px-4 py-2.5 text-center text-sm font-semibold text-white"
+                    className="mt-6 inline-flex justify-center rounded-md bg-accent px-4 py-2.5 text-center text-sm font-semibold text-gold-ink"
                   >
                     {cta.label}
                   </Link>

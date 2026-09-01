@@ -56,7 +56,7 @@ export function OverviewClient() {
           href="/new"
           className="rounded-md bg-gold px-4 py-2.5 text-sm font-semibold text-gold-ink hover:opacity-90"
         >
-          New assessment
+          New incident
         </Link>
       </div>
 

@@ -41,7 +41,7 @@ export default function PricingPage() {
                 <h2 className="font-display text-xl font-semibold text-ink">
                   {tier.name}
                 </h2>
-                <p className="mt-2 font-display text-3xl font-semibold text-accent-deep">
+                <p className="mt-2 font-display text-3xl font-semibold text-accent">
                   {tier.priceLabel}
                 </p>
                 <p className="mt-4 flex-1 text-sm leading-relaxed text-ink-muted">

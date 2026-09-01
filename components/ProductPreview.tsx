@@ -55,7 +55,7 @@ export function ProductPreview({
               className="flex items-center justify-between px-3 py-3 text-sm"
             >
               <span className="font-medium text-ink">{crop}</span>
-              <span className="font-semibold text-accent-deep">{price}</span>
+              <span className="font-semibold text-accent">{price}</span>
             </div>
           ))}
         </div>

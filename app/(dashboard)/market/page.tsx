@@ -38,7 +38,7 @@ export default function MarketPage() {
                 <td className="px-4 py-3 font-medium text-ink">{row.crop}</td>
                 <td className="px-4 py-3 text-ink-muted">{row.market}</td>
                 <td className="px-4 py-3 text-ink-muted">{row.unit}</td>
-                <td className="px-4 py-3 font-semibold text-accent-deep">
+                <td className="px-4 py-3 font-semibold text-accent">
                   {formatNgn(row.price)}
                 </td>
               </tr>

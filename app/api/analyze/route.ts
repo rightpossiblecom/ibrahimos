@@ -66,6 +66,22 @@ function normalizeAssessment(
     weatherNote: partial.weatherNote,
     nextActions: partial.nextActions.map(String),
     yieldHint: partial.yieldHint,
+    incidentId:
+      typeof partial.incidentId === "string" ? partial.incidentId : undefined,
+    evidenceSource:
+      partial.evidenceSource === "seed" ||
+      partial.evidenceSource === "upload" ||
+      partial.evidenceSource === "manual"
+        ? partial.evidenceSource
+        : input.mode,
+    fieldName:
+      typeof partial.fieldName === "string"
+        ? partial.fieldName
+        : input.fieldName,
+    artifactName:
+      typeof partial.artifactName === "string"
+        ? partial.artifactName
+        : input.artifactName,
   };
 }
 
@@ -109,8 +125,11 @@ export async function POST(req: NextRequest) {
     location: body.location.trim(),
     farmSizeHa:
       typeof body.farmSizeHa === "number" ? body.farmSizeHa : undefined,
+    fieldName: typeof body.fieldName === "string" ? body.fieldName : undefined,
     notes: typeof body.notes === "string" ? body.notes : undefined,
     imageName: typeof body.imageName === "string" ? body.imageName : undefined,
+    artifactName:
+      typeof body.artifactName === "string" ? body.artifactName : undefined,
   };
 
   if (!input.crop || !input.symptom || !input.location) {

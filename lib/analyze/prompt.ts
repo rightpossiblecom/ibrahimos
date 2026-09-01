@@ -14,8 +14,10 @@ export function buildAnalyzePrompt(input: AssessmentInput): string {
     `Location: ${input.location}`,
     `Mode: ${input.mode}`,
     input.farmSizeHa != null ? `Farm size (ha): ${input.farmSizeHa}` : "",
+    input.fieldName ? `Field name: ${input.fieldName}` : "",
     input.notes ? `Notes: ${input.notes}` : "",
     input.imageName ? `Image filename: ${input.imageName}` : "",
+    input.artifactName ? `Evidence artifact: ${input.artifactName}` : "",
   ]
     .filter(Boolean)
     .join("\n");

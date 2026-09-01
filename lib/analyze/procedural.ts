@@ -90,5 +90,8 @@ export function proceduralAnalyze(input: AssessmentInput): Assessment {
     weatherNote,
     nextActions,
     yieldHint,
+    evidenceSource: input.mode,
+    fieldName: input.fieldName,
+    artifactName: input.artifactName,
   };
 }

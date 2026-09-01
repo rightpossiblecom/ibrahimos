@@ -1,5 +1,11 @@
 /** Illustrative UI preview — not a claim of real screenshots until owner media lands. */
 
+import { siteConfig } from "@/config/site";
+
+const demoIncident = siteConfig.demoIncident;
+const demoAssessment = siteConfig.demoResults[0];
+const completedTasks = demoIncident.crewTasks.filter((task) => task.complete).length;
+
 export function ProductPreview({
   variant = "overview",
 }: {
@@ -12,20 +18,26 @@ export function ProductPreview({
         <div className="space-y-4 p-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-accent">
-              Disease · 91% confidence
+              {demoAssessment.category} · {demoAssessment.confidence}% confidence
             </p>
             <p className="mt-1 font-display text-xl font-semibold text-ink">
-              Northern Corn Leaf Blight
+              {demoAssessment.disease}
             </p>
             <p className="mt-2 text-sm text-ink-muted">
-              Kaduna · 2.5 ha · humid nights ahead
+              {demoIncident.field.location} · {demoIncident.affectedHectares} ha at risk · {demoIncident.responseWindowHours}-hour window
             </p>
           </div>
           <div className="border-l-2 border-accent pl-3 text-sm text-ink-muted">
-            Spray tomorrow morning · Scout adjacent rows · Log input cost
+            {demoAssessment.nextActions.join(" · ")}
           </div>
           <div className="grid gap-2 sm:grid-cols-3">
-            {["Premium AI", "Financing", "Find buyers"].map((label) => (
+            {[
+              `${demoIncident.zones.length} live zones`,
+              `${demoIncident.crewTasks.length - completedTasks} open tasks`,
+              new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(
+                demoIncident.responseCost,
+              ),
+            ].map((label) => (
               <div
                 key={label}
                 className="border border-line bg-bg px-3 py-2 text-center text-xs font-semibold text-ink"
@@ -69,21 +81,21 @@ export function ProductPreview({
       <div className="grid gap-3 p-5 sm:grid-cols-3">
         <div className="border border-line bg-bg p-4 sm:col-span-1">
           <p className="text-xs uppercase tracking-wider text-ink-muted">
-            Farm health
+            Hectares at risk
           </p>
           <p className="mt-2 font-display text-4xl font-semibold text-accent">
-            82
+            {demoIncident.affectedHectares}
           </p>
-          <p className="mt-1 text-xs text-ink-muted">Stable · watch blight</p>
+          <p className="mt-1 text-xs text-ink-muted">{demoIncident.field.name} · {demoIncident.severity} severity</p>
         </div>
         <div className="border border-line bg-bg p-4 sm:col-span-2">
           <p className="text-xs uppercase tracking-wider text-ink-muted">
-            Today
+            Crew tasks
           </p>
           <ul className="mt-2 space-y-2 text-sm text-ink-muted">
-            <li>Scout maize block B</li>
-            <li>Side-dress tomato beds</li>
-            <li>Rain likely Tuesday evening</li>
+            {demoIncident.crewTasks.slice(0, 3).map((task) => (
+              <li key={task.id}>{task.title}</li>
+            ))}
           </ul>
         </div>
       </div>
@@ -92,8 +104,8 @@ export function ProductPreview({
           Recent assessments
         </p>
         <div className="mt-2 flex items-center justify-between text-sm">
-          <span className="text-ink">Leaf blight · Maize</span>
-          <span className="text-accent">91%</span>
+          <span className="text-ink">{demoAssessment.disease} · {demoAssessment.input.crop}</span>
+          <span className="text-accent">{demoAssessment.confidence}%</span>
         </div>
       </div>
     </div>

@@ -2,44 +2,50 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { Assessment } from "@/lib/analyze/types";
+import type { Assessment, AssessmentCategory, Incident } from "@/lib/analyze/types";
 import { listAssessments } from "@/lib/assessments";
+import {
+  getActiveIncident,
+  resetIncidentDemo,
+  updateIncidentTask,
+} from "@/lib/incidents";
 
-const tasks = [
-  "Scout maize block B for leaf spots",
-  "Apply basal fertilizer on tomato beds",
-  "Check irrigation pump before noon heat",
-];
-
-const weatherStrip = [
-  { day: "Today", summary: "Partly cloudy · 31°C · light breeze" },
-  { day: "Tue", summary: "Rain likely evening · 28°C" },
-  { day: "Wed", summary: "Clear · 33°C · spray window AM" },
-];
-
-const yieldSeries = [2.4, 2.6, 2.9, 3.1, 3.3, 3.5];
-const assessmentMix = [
-  { label: "Disease", value: 42, color: "#2d6a4f" },
-  { label: "Nutrient", value: 28, color: "#c9a227" },
-  { label: "Pest", value: 18, color: "#1b4332" },
-  { label: "Advice", value: 12, color: "#3d4f45" },
-];
+const CATEGORY_COLORS: Record<AssessmentCategory, string> = {
+  disease: "#2d6a4f",
+  nutrient: "#c9a227",
+  pest: "#1b4332",
+  advice: "#3d4f45",
+};
 
 export function OverviewClient() {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
+  const [incident, setIncident] = useState<Incident | null>(null);
 
   useEffect(() => {
     function refresh() {
       setAssessments(listAssessments());
+      setIncident(getActiveIncident());
     }
+
     refresh();
     window.addEventListener("focus", refresh);
+    window.addEventListener("storage", refresh);
     document.addEventListener("visibilitychange", refresh);
+
     return () => {
       window.removeEventListener("focus", refresh);
+      window.removeEventListener("storage", refresh);
       document.removeEventListener("visibilitychange", refresh);
     };
   }, []);
+
+  if (!incident) return null;
+
+  const completedTasks = incident.crewTasks.filter((task) => task.complete).length;
+  const openTasks = incident.crewTasks.length - completedTasks;
+  const assessmentMix = buildAssessmentMix(assessments);
+  const deadlineLabel = formatTimestamp(incident.deadlineAt);
+  const nextCheckLabel = formatTimestamp(incident.recovery.nextCheckAt);
 
   return (
     <main className="px-4 py-8 sm:px-6">
@@ -62,23 +68,27 @@ export function OverviewClient() {
 
       {/* KPI cards */}
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Kpi label="Farm health" value="82" hint="Stable · watch blight" />
-        <Kpi label="Open tasks" value="3" hint="Due this week" />
-        <Kpi label="Assessments" value={String(assessments.length)} hint="Stored this season" />
-        <Kpi label="Rain risk" value="40%" hint="Tue evening" />
+        <Kpi label="Active incident" value="1" hint={`${incident.field.name} · ${incident.severity} severity`} />
+        <Kpi label="Hectares at risk" value={`${incident.affectedHectares} ha`} hint={`${incident.zones.length} monitored zones`} />
+        <Kpi label="Response cost" value={formatNaira(incident.responseCost)} hint={`${incident.responseWindowHours}-hour action window`} />
+        <Kpi label="Crew progress" value={`${completedTasks}/${incident.crewTasks.length}`} hint={`${incident.recovery.completion}% complete`} />
       </div>
 
       <div className="mt-4 border border-line bg-bg-elevated p-5">
         <p className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
-          Weather
+          Live incident
         </p>
         <ul className="mt-3 space-y-2">
-          {weatherStrip.map((row) => (
+          {[
+            { label: "Field", summary: `${incident.field.name} · ${incident.field.location} · ${incident.field.totalHectares} ha` },
+            { label: "Window", summary: `Deadline ${deadlineLabel}` },
+            { label: "Recovery", summary: `${incident.recovery.state} · next check ${nextCheckLabel}` },
+          ].map((row) => (
             <li
-              key={row.day}
+              key={row.label}
               className="flex flex-wrap gap-2 text-sm text-ink-muted"
             >
-              <span className="w-14 font-semibold text-ink">{row.day}</span>
+              <span className="w-20 font-semibold text-ink">{row.label}</span>
               <span>{row.summary}</span>
             </li>
           ))}
@@ -89,34 +99,68 @@ export function OverviewClient() {
       <div className="mt-8 grid gap-4 lg:grid-cols-2">
         <div className="border border-line bg-bg-elevated p-5">
           <h2 className="font-display text-lg font-semibold text-ink">
-            Yield trend (t/ha)
+            Affected zones
           </h2>
-          <p className="mt-1 text-xs text-ink-muted">Demo series · maize block A</p>
-          <YieldChart values={yieldSeries} />
+          <p className="mt-1 text-xs text-ink-muted">North Block 04 hectares at risk by zone</p>
+          <ZoneChart incident={incident} />
         </div>
         <div className="border border-line bg-bg-elevated p-5">
           <h2 className="font-display text-lg font-semibold text-ink">
-            Assessment mix
+            Evidence mix
           </h2>
-          <p className="mt-1 text-xs text-ink-muted">Share of case types this season</p>
+          <p className="mt-1 text-xs text-ink-muted">Derived from stored assessment evidence</p>
           <MixChart rows={assessmentMix} />
         </div>
       </div>
 
       <section className="mt-8">
-        <h2 className="font-display text-xl font-semibold text-ink">
-          Today&apos;s tasks
-        </h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="font-display text-xl font-semibold text-ink">
+            Crew tasks
+          </h2>
+          <button
+            type="button"
+            onClick={() => {
+              resetIncidentDemo();
+              setIncident(getActiveIncident());
+              setAssessments(listAssessments());
+            }}
+            className="rounded-md border border-line bg-bg-elevated px-3 py-2 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-bg"
+          >
+            Reset Kaduna seed
+          </button>
+        </div>
         <ul className="mt-3 space-y-2">
-          {tasks.map((task) => (
+          {incident.crewTasks.map((task) => (
             <li
-              key={task}
-              className="border-l-2 border-accent bg-bg-elevated px-4 py-3 text-sm text-ink-muted"
+              key={task.id}
+              className="border border-line bg-bg-elevated px-4 py-3"
             >
-              {task}
+              <label className="flex cursor-pointer items-start gap-3">
+                <input
+                  type="checkbox"
+                  checked={task.complete}
+                  onChange={(event) => {
+                    setIncident(updateIncidentTask(task.id, event.target.checked));
+                  }}
+                  className="mt-1 h-4 w-4 accent-[#2d6a4f]"
+                />
+                <span>
+                  <span className="block text-sm font-semibold text-ink">
+                    {task.title}
+                  </span>
+                  <span className="mt-1 block text-xs text-ink-muted">
+                    {task.crew}
+                    {task.complete ? " · complete" : " · open"}
+                  </span>
+                </span>
+              </label>
             </li>
           ))}
         </ul>
+        <p className="mt-3 text-xs text-ink-muted">
+          {openTasks} open tasks remain on the active response plan.
+        </p>
       </section>
 
       <section className="mt-8">
@@ -133,7 +177,7 @@ export function OverviewClient() {
                 <div>
                   <p className="text-sm font-semibold text-ink">{item.disease}</p>
                   <p className="text-xs text-ink-muted">
-                    {item.input.crop} · {item.input.location}
+                    {item.fieldName ?? item.input.fieldName ?? item.input.crop} · {item.input.location}
                   </p>
                 </div>
                 <span className="text-xs font-medium text-accent">
@@ -170,36 +214,35 @@ function Kpi({
   );
 }
 
-function YieldChart({ values }: { values: number[] }) {
-  const max = Math.max(...values);
-  const min = Math.min(...values);
-  const w = 320;
-  const h = 120;
-  const pad = 8;
-  const points = values
-    .map((v, i) => {
-      const x = pad + (i * (w - pad * 2)) / (values.length - 1);
-      const y =
-        h - pad - ((v - min) / (max - min || 1)) * (h - pad * 2);
-      return `${x},${y}`;
-    })
-    .join(" ");
+function ZoneChart({ incident }: { incident: Incident }) {
+  const max = Math.max(...incident.zones.map((zone) => zone.hectares));
 
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="mt-4 h-36 w-full" role="img" aria-label="Yield trend chart">
-      <polyline
-        fill="none"
-        stroke="#2d6a4f"
-        strokeWidth="3"
-        points={points}
-      />
-      {values.map((v, i) => {
-        const x = pad + (i * (w - pad * 2)) / (values.length - 1);
-        const y =
-          h - pad - ((v - min) / (max - min || 1)) * (h - pad * 2);
-        return <circle key={i} cx={x} cy={y} r="4" fill="#c9a227" />;
-      })}
-    </svg>
+    <ul className="mt-4 space-y-3" aria-label="Affected zones chart">
+      {incident.zones.map((zone) => (
+        <li key={zone.id}>
+          <div className="flex justify-between gap-3 text-xs text-ink-muted">
+            <span>{zone.name}</span>
+            <span>{zone.hectares} ha</span>
+          </div>
+          <div className="mt-1 h-2 w-full bg-bg">
+            <div
+              className="h-2"
+              style={{
+                width: `${(zone.hectares / max) * 100}%`,
+                backgroundColor:
+                  zone.status === "active"
+                    ? "#2d6a4f"
+                    : zone.status === "buffer"
+                      ? "#c9a227"
+                      : "#3d4f45",
+              }}
+            />
+          </div>
+          <p className="mt-1 text-xs text-ink-muted">{zone.note}</p>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -230,4 +273,41 @@ function MixChart({
       ))}
     </ul>
   );
+}
+
+function buildAssessmentMix(assessments: Assessment[]) {
+  const counts: Record<AssessmentCategory, number> = {
+    disease: 0,
+    nutrient: 0,
+    pest: 0,
+    advice: 0,
+  };
+
+  for (const assessment of assessments) {
+    counts[assessment.category] += 1;
+  }
+
+  const total = assessments.length || 1;
+  return (Object.keys(counts) as AssessmentCategory[]).map((category) => ({
+    label: category.charAt(0).toUpperCase() + category.slice(1),
+    value: Math.round((counts[category] / total) * 100),
+    color: CATEGORY_COLORS[category],
+  }));
+}
+
+function formatNaira(value: number) {
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function formatTimestamp(value: string) {
+  return new Date(value).toLocaleString("en-NG", {
+    day: "numeric",
+    month: "short",
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }

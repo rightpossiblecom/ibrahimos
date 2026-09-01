@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+
+# local superpowers task artifacts
 /.superpowers/
 
 # next.js

@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { MarketingCtaBand } from "@/components/MarketingCtaBand";
-import { ProductPreview } from "@/components/ProductPreview";
 import { siteConfig } from "@/config/site";
 import { getProductMedia } from "@/lib/product-assets";
 
 export const metadata: Metadata = {
   title: "Product",
 };
+
+export const dynamic = "force-dynamic";
 
 export default function ProductPage() {
   const media = getProductMedia();
@@ -63,29 +64,27 @@ export default function ProductPage() {
               Four rooms on the same incident
             </h2>
             <div className="mt-10 grid gap-6 lg:grid-cols-2">
-              {media.screenshots.length >= 4
-                ? media.screenshots.slice(0, 4).map((src, index) => (
-                    <figure
-                      key={src}
-                      className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line bg-bg-elevated"
-                    >
-                      <Image
-                        src={src}
-                        alt={`${siteConfig.brandName} screenshot ${index + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                      />
-                    </figure>
-                  ))
-                : (
-                  <>
-                    <ProductPreview variant="command" />
-                    <ProductPreview variant="intake" />
-                    <ProductPreview variant="incident" />
-                    <ProductPreview variant="recovery" />
-                  </>
-                )}
+              {(media.screenshots.length >= 4
+                ? media.screenshots.slice(0, 4)
+                : [
+                    "/product/desk-command.png",
+                    "/product/desk-incident.png",
+                    "/product/desk-intake.png",
+                    "/product/desk-fields.png",
+                  ]
+              ).map((src, index) => (
+                <figure
+                  key={src}
+                  className="overflow-hidden rounded-3xl border border-line bg-bg-elevated"
+                >
+                  {/* Plain img so Next's optimizer cannot keep a stale shot-01 cache */}
+                  <img
+                    src={src}
+                    alt={`${siteConfig.brandName} screenshot ${index + 1}`}
+                    className="h-auto w-full object-cover object-top"
+                  />
+                </figure>
+              ))}
             </div>
           </div>
         </section>

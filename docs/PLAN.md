@@ -28,6 +28,7 @@
 - Do not invent URLs, domains, email addresses, traction, customers, or institutional logos.
 - Keep the existing supplied `ibrahimos.top`, `hello@ibrahimos.top`, founder profiles, and registration data, but move legal registration details out of the primary product narrative.
 - Header and footer expose every major public and in-app room.
+- Marketing header, in-app sidebar, and in-app header stay sticky while the desk scrolls.
 - The demo must remain useful after refresh and contain no empty states on the camera path.
 - `.superpowers/` brainstorming artifacts must not be committed.
 
@@ -66,10 +67,12 @@
 
 **Interfaces**
 - `Incident` contains identity, field, crop, severity, affected hectares, response cost, deadline, zones, crew tasks, and recovery status.
-- `getActiveIncident(): Incident`
+- `isDeskLive(): boolean` — Command stays dark until analysis finishes.
+- `getActiveIncident(): Incident | null` — `null` on a fresh or reset desk.
+- `activateSeededIncident(): Incident` — turns the desk live after `/new` wait.
 - `saveActiveIncident(incident: Incident): void`
 - `updateIncidentTask(taskId: string, complete: boolean): Incident`
-- `resetIncidentDemo(): void`
+- `resetIncidentDemo(): void` — clears the live flag, incident, and assessments.
 
 **Deliverable**
 - Replace scattered demo numbers with one seeded Kaduna incident fixture.
@@ -77,7 +80,7 @@
 - Preserve current assessments for compatibility while treating new assessments as incident evidence.
 
 **Verification**
-- Confirm fresh browser state loads the seed deterministically.
+- Confirm a fresh or reset desk shows no live-case figures until `/new` finishes.
 - Confirm completing a task survives refresh and updates progress.
 
 ### Task 3: Product-first marketing homepage

@@ -25,10 +25,22 @@ export function getProductMedia() {
     ? "/cac-certificate.pdf"
     : null;
 
-  let screenshots: string[] = [];
-  if (existsSync(productDir)) {
+  const preferredShots = [
+    "desk-command.png",
+    "desk-incident.png",
+    "desk-intake.png",
+    "desk-fields.png",
+    "desk-market.png",
+    "desk-weather.png",
+  ];
+
+  let screenshots: string[] = preferredShots
+    .filter((name) => publicExists("product", name))
+    .map((name) => `/product/${name}`);
+
+  if (screenshots.length < 4 && existsSync(productDir)) {
     screenshots = readdirSync(productDir)
-      .filter((name) => /^shot-\d+\.(png|jpg|jpeg|webp)$/i.test(name))
+      .filter((name) => /^(desk-|shot-).+\.(png|jpg|jpeg|webp)$/i.test(name))
       .sort()
       .map((name) => `/product/${name}`);
   }

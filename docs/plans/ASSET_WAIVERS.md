@@ -6,8 +6,8 @@
 | Asset | Status |
 | ----- | ------ |
 | Registration / CAC certificate image | **Done** — rendered from owner PDF → `public/product/cac-certificate.jpg` (+ `public/cac-certificate.pdf`) |
-| Demo walkthrough (`public/product/demo.mp4`) | **Done** — owner export video copied in |
-| Product screenshots (`public/product/shot-0N.png`) | **Done** — 6 dashboard captures via `pnpm shots` |
+| Demo walkthrough (`public/product/demo.mp4`) | **Done** — owner export `export-1788330632658.mp4` compressed to 720p (~2.6 MB) |
+| Product screenshots (`public/product/shot-0N.png`) | **Done** — 6 live Precision Command captures via `pnpm shots` |
 | Logo / mark | Not provided — text brand mark |
 | Founders + LinkedIn | **Done** — Ibrahim Nurudeen + Ifeoluwa Johz in `config/site.ts` |
 | Legal entity / CAC number | **Done** — from CAC text (Ibrahim's Agricultural Enterprise · 9563561) |

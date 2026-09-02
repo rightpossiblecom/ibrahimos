@@ -4,8 +4,17 @@ import type {
   IncidentCrewTask,
   IncidentRecoveryState,
 } from "./analyze/types";
+import { clearAssessments } from "./assessments";
 
 export const ACTIVE_INCIDENT_KEY = `${siteConfig.shortName}_active_incident`;
+export const DESK_LIVE_KEY = `${siteConfig.shortName}_desk_live`;
+export const DESK_EVENT = "ibrahimos-desk";
+
+export function notifyDeskChange(): void {
+  if (typeof window !== "undefined" && typeof window.dispatchEvent === "function") {
+    window.dispatchEvent(new Event(DESK_EVENT));
+  }
+}
 
 function cloneTask(task: IncidentCrewTask): IncidentCrewTask {
   return { ...task };
@@ -105,23 +114,39 @@ function persistIncident(incident: Incident): Incident {
   return normalized;
 }
 
-export function getActiveIncident(): Incident {
+export function isDeskLive(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(DESK_LIVE_KEY) === "1";
+}
+
+function setDeskLive(live: boolean): void {
+  if (typeof window === "undefined") return;
+  if (live) localStorage.setItem(DESK_LIVE_KEY, "1");
+  else localStorage.removeItem(DESK_LIVE_KEY);
+}
+
+export function getActiveIncident(): Incident | null {
+  if (!isDeskLive()) return null;
+
   const stored = loadStoredIncident();
   if (stored) return stored;
 
-  const seeded = seedCopy();
-  if (typeof window !== "undefined") {
-    localStorage.setItem(ACTIVE_INCIDENT_KEY, JSON.stringify(seeded));
-  }
-  return seeded;
+  return persistIncident(seedCopy());
 }
 
 export function saveActiveIncident(incident: Incident): void {
   persistIncident(incident);
 }
 
+export function activateSeededIncident(): Incident {
+  setDeskLive(true);
+  const incident = persistIncident(seedCopy());
+  notifyDeskChange();
+  return incident;
+}
+
 export function updateIncidentTask(taskId: string, complete: boolean): Incident {
-  const current = getActiveIncident();
+  const current = getActiveIncident() ?? activateSeededIncident();
   const next: Incident = {
     ...current,
     updatedAt: new Date().toISOString(),
@@ -134,7 +159,7 @@ export function updateIncidentTask(taskId: string, complete: boolean): Incident 
 }
 
 export function attachEvidence(assessmentId: string): Incident {
-  const current = getActiveIncident();
+  const current = getActiveIncident() ?? activateSeededIncident();
   const evidenceAssessmentIds = current.evidenceAssessmentIds.includes(assessmentId)
     ? current.evidenceAssessmentIds
     : [assessmentId, ...current.evidenceAssessmentIds];
@@ -148,7 +173,7 @@ export function attachEvidence(assessmentId: string): Incident {
 }
 
 export function deployCrew(): Incident {
-  const current = getActiveIncident();
+  const current = getActiveIncident() ?? activateSeededIncident();
   return persistIncident({
     ...current,
     updatedAt: new Date().toISOString(),
@@ -160,9 +185,11 @@ export function deployCrew(): Incident {
 }
 
 export function resetIncidentDemo(): void {
-  const seeded = seedCopy();
   if (typeof window !== "undefined") {
-    localStorage.setItem(ACTIVE_INCIDENT_KEY, JSON.stringify(seeded));
-    console.log(`[IbrahimOS Incident] reset ${seeded.id}`);
+    localStorage.removeItem(ACTIVE_INCIDENT_KEY);
+    setDeskLive(false);
+    clearAssessments();
+    notifyDeskChange();
+    console.log("[IbrahimOS Incident] reset desk");
   }
 }

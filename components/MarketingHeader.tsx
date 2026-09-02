@@ -35,7 +35,7 @@ export function MarketingHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/80 bg-bg/88 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-line/80 bg-bg/88 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6">
         <BrandMark />
         <nav

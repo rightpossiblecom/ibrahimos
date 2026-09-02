@@ -9,6 +9,7 @@ export default function MarketingLayout({
   return (
     <>
       <MarketingHeader />
+      <div className="h-16 shrink-0" aria-hidden />
       <div className="flex-1">{children}</div>
       <MarketingFooter />
     </>

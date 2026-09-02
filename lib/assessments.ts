@@ -3,24 +3,26 @@ import type { Assessment } from "@/lib/analyze/types";
 
 export const ASSESSMENTS_KEY = `${siteConfig.shortName}_assessments`;
 
-function seedCopy(): Assessment[] {
-  return siteConfig.demoResults.map((item) => ({ ...item, input: { ...item.input } }));
-}
-
 export function listAssessments(): Assessment[] {
-  if (typeof window === "undefined") return seedCopy();
+  if (typeof window === "undefined") return [];
   const raw = localStorage.getItem(ASSESSMENTS_KEY);
-  if (!raw) return seedCopy();
+  if (!raw) return [];
   try {
     const parsed = JSON.parse(raw) as Assessment[];
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : seedCopy();
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    return seedCopy();
+    return [];
   }
 }
 
 export function getAssessment(id: string): Assessment | null {
   return listAssessments().find((item) => item.id === id) ?? null;
+}
+
+export function clearAssessments(): void {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem(ASSESSMENTS_KEY);
+  }
 }
 
 export function saveAssessment(assessment: Assessment): void {

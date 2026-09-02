@@ -7,7 +7,7 @@ import { demoFlow } from "@/config/demo-flow";
 import { siteConfig } from "@/config/site";
 import type { Assessment, AssessmentInput } from "@/lib/analyze/types";
 import { saveAssessment } from "@/lib/assessments";
-import { attachEvidence, getActiveIncident, saveActiveIncident } from "@/lib/incidents";
+import { activateSeededIncident, attachEvidence } from "@/lib/incidents";
 
 const CROPS = [
   "Maize",
@@ -69,8 +69,7 @@ export default function NewIncidentPage() {
 
   async function finishWithAssessment(assessment: Assessment) {
     saveAssessment(assessment);
-    const incident = getActiveIncident();
-    saveActiveIncident(incident);
+    activateSeededIncident();
     attachEvidence(assessment.id);
     router.push(`/projects/${assessment.id}`);
   }

@@ -28,8 +28,8 @@ export default function IncidentRoomPage() {
       const live = getActiveIncident();
       setIncident(live);
       setAssessment(found ?? null);
-      if (!found && !live) {
-        router.replace("/dashboard");
+      if (!live) {
+        router.replace("/new");
       }
     }, 0);
     return () => window.clearTimeout(timer);

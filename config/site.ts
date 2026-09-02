@@ -95,7 +95,7 @@ export const siteConfig = {
       },
       {
         title: "Records",
-        body: "Crops, planting dates, and assessments stay in your workspace on this device. Treat a shared handset as a shared farm book.",
+        body: "Crops, planting dates, and assessments stay in your IbrahimOS account. Sign out on a shared handset.",
       },
       {
         title: "Questions",
@@ -160,11 +160,11 @@ export const siteConfig = {
     },
     {
       q: "Do I need a Gemini key to try the product?",
-      a: "No. Log in with any email and password. The Kaduna sample runs the full incident without a paid key.",
+      a: "No. Create an account, sign in, and run the Kaduna sample. The incident desk works without a paid key.",
     },
     {
       q: "How do I start?",
-      a: "Create an account, then log in. Open Incidents, use the Kaduna sample, wait for the command plan, and deploy the crew.",
+      a: "Create an account with your email and password. Sign in, open Incidents, use the Kaduna sample, wait for the command plan, and deploy the crew.",
     },
     {
       q: "Is this only a diagnosis tool?",

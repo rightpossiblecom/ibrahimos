@@ -1,17 +1,62 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { MarketingCtaBand } from "@/components/MarketingCtaBand";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Team",
+  description: `The people behind ${siteConfig.brandName}: ${siteConfig.team
+    .map((member) => `${member.name}, ${member.role}`)
+    .join("; ")}. ${siteConfig.legalEntity}, CAC ${siteConfig.cacNumber}.`,
 };
 
 export default function TeamPage() {
-  const hasTeam = siteConfig.team.length >= 2;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.brandName,
+    legalName: siteConfig.legalEntity,
+    foundingDate: String(siteConfig.foundedYear),
+    email: siteConfig.supportEmail,
+    url: `https://${siteConfig.domain}/team`,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "53, Behind Yoruba Chief Palace Gwako",
+      addressLocality: "Gwagwalada",
+      addressRegion: "FCT",
+      addressCountry: "NG",
+    },
+    identifier: [
+      { "@type": "PropertyValue", name: "CAC", value: siteConfig.cacNumber },
+      { "@type": "PropertyValue", name: "TIN", value: siteConfig.tin },
+    ],
+    sameAs: siteConfig.team.map((member) => member.linkedin).filter(Boolean),
+    founder: siteConfig.team.map((member) => ({
+      "@type": "Person",
+      name: member.name,
+      jobTitle: member.role,
+      description: member.bio,
+      sameAs: member.linkedin,
+      worksFor: {
+        "@type": "Organization",
+        name: siteConfig.brandName,
+        legalName: siteConfig.legalEntity,
+      },
+    })),
+    employee: siteConfig.team.map((member) => ({
+      "@type": "Person",
+      name: member.name,
+      jobTitle: member.role,
+      description: member.bio,
+      sameAs: member.linkedin,
+    })),
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="border-b border-line bg-bg-elevated">
           <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
@@ -19,77 +64,85 @@ export default function TeamPage() {
               Team
             </p>
             <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
-              People behind {siteConfig.brandName}
+              Who builds {siteConfig.brandName}
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-ink-muted">
-              {siteConfig.legalEntity
-                ? `${siteConfig.legalEntity} builds `
-                : ""}
-              an Africa-first farm operating system — agronomy, product, and
-              partnerships working toward more profit per season for farmers.
+              {siteConfig.legalEntity} is a registered Nigerian agribusiness. We
+              build {siteConfig.brandName} so farm managers can upload field
+              evidence, get a diagnosis, and run the response from one desk.
             </p>
           </div>
         </section>
 
-        <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-          {hasTeam ? (
-            <ul className="space-y-8">
-              {siteConfig.team.map((member) => (
-                <li key={member.name} className="border border-line bg-bg-elevated p-6">
-                  <p className="font-display text-xl font-semibold text-ink">
-                    {member.name}
-                  </p>
-                  <p className="mt-1 text-sm font-medium text-accent">{member.role}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                    {member.bio}
-                  </p>
-                  {member.linkedin ? (
-                    <a
-                      href={member.linkedin}
-                      className="mt-4 inline-block text-sm font-medium text-accent hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      LinkedIn
-                    </a>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="border border-line bg-bg-elevated px-6 py-8">
-              <h2 className="font-display text-xl font-semibold text-ink">
-                Owner action required
-              </h2>
-              <p className="mt-3 text-base leading-relaxed text-ink-muted">
-                Cloud Grant ship rules require ≥2 real people with name, role,
-                bio, and LinkedIn URL in{" "}
-                <code className="text-ink">config/site.ts</code>. We will not
-                invent founders. Send two profiles and they will render here.
-              </p>
-              <p className="mt-4 text-sm text-ink-muted">
-                Contact:{" "}
-                <a
-                  href={`mailto:${siteConfig.supportEmail}`}
-                  className="font-medium text-accent hover:underline"
-                >
-                  {siteConfig.supportEmail}
-                </a>
-              </p>
-              <Link
-                href={siteConfig.ctas.secondary.href}
-                className="mt-6 inline-block text-sm font-semibold text-accent hover:underline"
-              >
-                {siteConfig.ctas.secondary.label}
-              </Link>
+        <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+          <h2 className="font-display text-2xl font-semibold text-ink">
+            Company
+          </h2>
+          <dl className="mt-6 grid gap-4 sm:grid-cols-2">
+            <Fact label="Legal name" value={siteConfig.legalEntity} />
+            <Fact label="Product" value={siteConfig.brandName} />
+            <Fact label="CAC" value={siteConfig.cacNumber} />
+            <Fact label="TIN" value={siteConfig.tin} />
+            <Fact label="Founded" value={String(siteConfig.foundedYear)} />
+            <Fact label="Email" value={siteConfig.supportEmail} href={`mailto:${siteConfig.supportEmail}`} />
+            <div className="sm:col-span-2">
+              <Fact label="Registered address" value={siteConfig.businessAddress} />
             </div>
-          )}
+          </dl>
+        </section>
+
+        <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
+          <h2 className="font-display text-2xl font-semibold text-ink">People</h2>
+          <ul className="mt-8 space-y-8">
+            {siteConfig.team.map((member) => (
+              <li key={member.name} className="border border-line bg-bg-elevated p-6">
+                <p className="font-display text-xl font-semibold text-ink">{member.name}</p>
+                <p className="mt-1 text-sm font-medium text-accent">{member.role}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink-muted">{member.bio}</p>
+                {member.linkedin ? (
+                  <a
+                    href={member.linkedin}
+                    className="mt-4 inline-block text-sm font-medium text-accent hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn profile
+                  </a>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         </section>
       </main>
       <MarketingCtaBand
         title="Talk to the team"
-        body="Log in for your farm, or talk to sales for a cooperative or partner program."
+        body="Create an account for your farm, or write the founders if you run a cooperative or partner program."
       />
     </>
+  );
+}
+
+function Fact({
+  label,
+  value,
+  href,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+}) {
+  return (
+    <div className="border border-line bg-bg-elevated px-4 py-3">
+      <dt className="text-xs font-semibold uppercase tracking-wider text-ink-muted">{label}</dt>
+      <dd className="mt-1 text-sm font-medium text-ink">
+        {href ? (
+          <a href={href} className="text-accent hover:underline">
+            {value}
+          </a>
+        ) : (
+          value
+        )}
+      </dd>
+    </div>
   );
 }

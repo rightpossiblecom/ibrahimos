@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { resetIncidentDemo } from "@/lib/incidents";
 import { useDesk } from "@/lib/use-desk";
-import { clearSession, getSession, type Session } from "@/lib/session";
+import { clearSession, fetchSession, type Session } from "@/lib/session";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -13,14 +13,17 @@ export default function AccountPage() {
   const [session, setSessionState] = useState<Session | null>(null);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setSessionState(getSession());
-    }, 0);
-    return () => window.clearTimeout(timer);
+    let cancelled = false;
+    void fetchSession().then((current) => {
+      if (!cancelled) setSessionState(current);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  function signOut() {
-    clearSession();
+  async function signOut() {
+    await clearSession();
     router.replace("/login");
   }
 

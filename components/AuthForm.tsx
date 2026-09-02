@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { siteConfig } from "@/config/site";
-import { setSession } from "@/lib/session";
+import { signIn, signUp } from "@/lib/session";
 
 type Props = {
   mode: "login" | "signup";
@@ -13,9 +13,9 @@ type Props = {
 export function AuthForm({ mode }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [pendingVerify, setPendingVerify] = useState(false);
+  const [pending, setPending] = useState(false);
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     const data = new FormData(event.currentTarget);
@@ -27,35 +27,18 @@ export function AuthForm({ mode }: Props) {
       return;
     }
 
-    if (mode === "signup") {
-      setPendingVerify(true);
-      return;
+    setPending(true);
+    try {
+      if (mode === "signup") {
+        await signUp(email, password);
+      } else {
+        await signIn(email, password);
+      }
+      router.push("/dashboard");
+    } catch (next) {
+      setError(next instanceof Error ? next.message : "Could not continue.");
+      setPending(false);
     }
-
-    setSession(email);
-    router.push("/dashboard");
-  }
-
-  if (pendingVerify) {
-    return (
-      <main className="flex min-h-full flex-1 items-center justify-center px-4 py-16">
-        <div className="ops-panel w-full max-w-md rounded-3xl p-8">
-          <p className="ops-eyebrow">{siteConfig.brandName}</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold text-ink">
-            Check your email
-          </h1>
-          <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-            We sent a verification link. Open it, then log in to reach Command.
-          </p>
-          <Link
-            href="/login"
-            className="mt-8 inline-flex rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-gold-ink"
-          >
-            Go to log in
-          </Link>
-        </div>
-      </main>
-    );
   }
 
   const title = mode === "login" ? "Sign in" : "Create account";
@@ -70,8 +53,8 @@ export function AuthForm({ mode }: Props) {
         <h1 className="mt-2 font-display text-3xl font-semibold text-ink">{title}</h1>
         <p className="mt-2 text-sm text-ink-muted">
           {mode === "login"
-            ? "Any email and password opens the Kaduna command desk."
-            : "Create an account, then check email before you can open Command."}
+            ? "Sign in with the email and password you created. Your farm desk loads from your account."
+            : "Create a real account. Command stays empty until you open an incident."}
         </p>
         <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate>
           <label className="block">
@@ -92,6 +75,9 @@ export function AuthForm({ mode }: Props) {
               className="mt-1.5 w-full rounded-md border border-line bg-bg px-3 py-2.5 text-sm outline-none"
             />
           </label>
+          {mode === "signup" ? (
+            <p className="text-xs text-ink-muted">Use at least 8 characters.</p>
+          ) : null}
           {error ? (
             <p className="text-sm text-warning" role="alert">
               {error}
@@ -99,9 +85,10 @@ export function AuthForm({ mode }: Props) {
           ) : null}
           <button
             type="submit"
-            className="w-full rounded-full bg-accent px-4 py-3 text-sm font-semibold text-gold-ink"
+            disabled={pending}
+            className="w-full rounded-full bg-accent px-4 py-3 text-sm font-semibold text-gold-ink disabled:opacity-60"
           >
-            {title}
+            {pending ? "Working…" : title}
           </button>
         </form>
         <p className="mt-6 text-center text-sm text-ink-muted">

@@ -5,16 +5,15 @@ import type {
   IncidentRecoveryState,
 } from "./analyze/types";
 import { clearAssessments } from "./assessments";
+import {
+  ACTIVE_INCIDENT_KEY,
+  DESK_EVENT,
+  DESK_LIVE_KEY,
+  notifyDeskChange,
+} from "./desk-keys";
+import { persistDeskRemote, resetDeskRemote } from "./desk-sync";
 
-export const ACTIVE_INCIDENT_KEY = `${siteConfig.shortName}_active_incident`;
-export const DESK_LIVE_KEY = `${siteConfig.shortName}_desk_live`;
-export const DESK_EVENT = "ibrahimos-desk";
-
-export function notifyDeskChange(): void {
-  if (typeof window !== "undefined" && typeof window.dispatchEvent === "function") {
-    window.dispatchEvent(new Event(DESK_EVENT));
-  }
-}
+export { ACTIVE_INCIDENT_KEY, DESK_EVENT, DESK_LIVE_KEY, notifyDeskChange };
 
 function cloneTask(task: IncidentCrewTask): IncidentCrewTask {
   return { ...task };
@@ -110,6 +109,7 @@ function persistIncident(incident: Incident): Incident {
   if (typeof window !== "undefined") {
     localStorage.setItem(ACTIVE_INCIDENT_KEY, JSON.stringify(normalized));
     console.log(`[IbrahimOS Incident] saved ${normalized.id}`);
+    void persistDeskRemote();
   }
   return normalized;
 }
@@ -190,6 +190,7 @@ export function resetIncidentDemo(): void {
     setDeskLive(false);
     clearAssessments();
     notifyDeskChange();
+    void resetDeskRemote();
     console.log("[IbrahimOS Incident] reset desk");
   }
 }

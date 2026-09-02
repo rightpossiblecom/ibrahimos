@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "node --experimental-strip-types --test lib/incidents.test.mjs",
     "shots": "node scripts/capture-product-shots.mjs",
     "cac": "python scripts/render-cac.py"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "firebase": "^12.18.0",
+    "firebase-admin": "^14.3.0",
     "next": "16.2.12",
     "react": "19.2.4",
     "react-dom": "19.2.4"

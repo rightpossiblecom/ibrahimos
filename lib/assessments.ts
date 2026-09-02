@@ -1,7 +1,8 @@
-import { siteConfig } from "@/config/site";
 import type { Assessment } from "@/lib/analyze/types";
+import { ASSESSMENTS_KEY } from "@/lib/desk-keys";
+import { persistDeskRemote } from "@/lib/desk-sync";
 
-export const ASSESSMENTS_KEY = `${siteConfig.shortName}_assessments`;
+export { ASSESSMENTS_KEY };
 
 export function listAssessments(): Assessment[] {
   if (typeof window === "undefined") return [];
@@ -30,4 +31,5 @@ export function saveAssessment(assessment: Assessment): void {
   const next = [assessment, ...current];
   localStorage.setItem(ASSESSMENTS_KEY, JSON.stringify(next));
   console.log(`[IbrahimOS Assessment] saved ${assessment.id}`);
+  void persistDeskRemote();
 }

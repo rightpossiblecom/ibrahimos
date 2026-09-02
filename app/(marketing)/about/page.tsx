@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { MarketingCtaBand } from "@/components/MarketingCtaBand";
 import { siteConfig } from "@/config/site";
 
@@ -77,13 +78,18 @@ export default function AboutPage() {
             more, lose less, and earn more.
           </p>
           <p className="mt-4 text-base leading-relaxed text-ink-muted">
-            Founded {siteConfig.foundedYear}. Reach us at{" "}
+            Founded {siteConfig.foundedYear} as {siteConfig.legalEntity} (CAC{" "}
+            {siteConfig.cacNumber}). Reach us at{" "}
             <a
               href={`mailto:${siteConfig.supportEmail}`}
               className="font-medium text-accent hover:underline"
             >
               {siteConfig.supportEmail}
             </a>
+            . The people behind the product are on the{" "}
+            <Link href="/team" className="font-medium text-accent hover:underline">
+              team page
+            </Link>
             .
           </p>
         </section>

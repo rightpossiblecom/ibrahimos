@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DashboardNav } from "@/components/DashboardNav";
 import { useDesk } from "@/lib/use-desk";
-import { getSession, type Session } from "@/lib/session";
+import { fetchSession, type Session } from "@/lib/session";
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -13,19 +13,20 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const [session, setSessionState] = useState<Session | null>(null);
 
   useEffect(() => {
-    const current = getSession();
-    if (!current) {
-      router.replace("/login");
-      return;
-    }
+    let cancelled = false;
 
-    const timer = window.setTimeout(() => {
+    void fetchSession().then((current) => {
+      if (cancelled) return;
+      if (!current) {
+        router.replace("/login");
+        return;
+      }
       setSessionState(current);
       setReady(true);
-    }, 0);
+    });
 
     return () => {
-      window.clearTimeout(timer);
+      cancelled = true;
     };
   }, [router]);
 

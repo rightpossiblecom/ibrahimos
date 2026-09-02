@@ -7,6 +7,7 @@ import { demoFlow } from "@/config/demo-flow";
 import { siteConfig } from "@/config/site";
 import type { Assessment, AssessmentInput } from "@/lib/analyze/types";
 import { saveAssessment } from "@/lib/assessments";
+import { persistDeskRemote } from "@/lib/desk-sync";
 import { activateSeededIncident, attachEvidence } from "@/lib/incidents";
 
 const CROPS = [
@@ -71,6 +72,7 @@ export default function NewIncidentPage() {
     saveAssessment(assessment);
     activateSeededIncident();
     attachEvidence(assessment.id);
+    await persistDeskRemote();
     router.push(`/projects/${assessment.id}`);
   }
 

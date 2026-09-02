@@ -38,7 +38,14 @@ export function saveLead(
     createdAt: new Date().toISOString(),
   };
   const next = [lead, ...listLeads()];
-  localStorage.setItem(LEADS_KEY, JSON.stringify(next));
+  if (typeof window !== "undefined") {
+    localStorage.setItem(LEADS_KEY, JSON.stringify(next));
+    void fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lead),
+    }).catch(() => undefined);
+  }
   console.log(`[IbrahimOS Lead] saved ${lead.form} ${lead.id}`);
   return lead;
 }

@@ -1,124 +1,121 @@
-/** Illustrative UI preview — not a claim of real screenshots until owner media lands. */
-
+import type { ReactNode } from "react";
 import { siteConfig } from "@/config/site";
+import { formatNgn } from "@/lib/format-currency";
 
 const demoIncident = siteConfig.demoIncident;
 const demoAssessment = siteConfig.demoResults[0];
-const completedTasks = demoIncident.crewTasks.filter((task) => task.complete).length;
 
 export function ProductPreview({
-  variant = "overview",
+  variant = "command",
 }: {
-  variant?: "overview" | "assessment" | "market";
+  variant?: "command" | "intake" | "incident" | "recovery" | "overview" | "assessment" | "market";
 }) {
-  if (variant === "assessment") {
+  const resolved =
+    variant === "overview"
+      ? "command"
+      : variant === "assessment"
+        ? "incident"
+        : variant === "market"
+          ? "recovery"
+          : variant;
+
+  if (resolved === "intake") {
     return (
-      <div className="overflow-hidden border border-line bg-bg-elevated shadow-sm">
-        <PreviewChrome title="Assessment · Maize" />
-        <div className="space-y-4 p-5">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-accent">
-              {demoAssessment.category} · {demoAssessment.confidence}% confidence
-            </p>
-            <p className="mt-1 font-display text-xl font-semibold text-ink">
-              {demoAssessment.disease}
-            </p>
-            <p className="mt-2 text-sm text-ink-muted">
-              {demoIncident.field.location} · {demoIncident.affectedHectares} ha at risk · {demoIncident.responseWindowHours}-hour window
-            </p>
-          </div>
-          <div className="border-l-2 border-accent pl-3 text-sm text-ink-muted">
-            {demoAssessment.nextActions.join(" · ")}
-          </div>
-          <div className="grid gap-2 sm:grid-cols-3">
-            {[
-              `${demoIncident.zones.length} live zones`,
-              `${demoIncident.crewTasks.length - completedTasks} open tasks`,
-              new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(
-                demoIncident.responseCost,
-              ),
-            ].map((label) => (
-              <div
-                key={label}
-                className="border border-line bg-bg px-3 py-2 text-center text-xs font-semibold text-ink"
-              >
-                {label}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <PreviewFrame title="Intake · New incident">
+        <p className="ops-eyebrow">Sample artifact</p>
+        <p className="mt-2 font-display text-xl font-semibold text-ink">
+          {demoAssessment.artifactName}
+        </p>
+        <p className="mt-2 text-sm text-ink-muted">
+          {demoIncident.crop} · {demoIncident.field.name} · {demoIncident.field.location}
+        </p>
+        <p className="mt-4 rounded-2xl border border-line bg-panel-strong px-4 py-3 text-sm text-ink-muted">
+          {demoAssessment.input.symptom}
+        </p>
+      </PreviewFrame>
     );
   }
 
-  if (variant === "market") {
+  if (resolved === "incident") {
     return (
-      <div className="overflow-hidden border border-line bg-bg-elevated shadow-sm">
-        <PreviewChrome title="Market prices" />
-        <div className="divide-y divide-line p-2">
-          {[
-            ["Maize", "₦42,000"],
-            ["Rice", "₦78,000"],
-            ["Tomato", "₦35,000"],
-            ["Cassava", "₦18,000"],
-          ].map(([crop, price]) => (
-            <div
-              key={crop}
-              className="flex items-center justify-between px-3 py-3 text-sm"
-            >
-              <span className="font-medium text-ink">{crop}</span>
-              <span className="font-semibold text-accent">{price}</span>
-            </div>
-          ))}
+      <PreviewFrame title="Incident Room · North Block 04">
+        <p className="ops-eyebrow">Active incident</p>
+        <p className="mt-2 font-display text-2xl font-semibold text-ink">{demoIncident.threat}</p>
+        <p className="mt-1 text-sm text-warning">
+          {demoIncident.severity} risk · {demoAssessment.confidence}% confidence
+        </p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          <Metric label="At risk" value={`${demoIncident.affectedHectares} ha`} />
+          <Metric label="Response" value={formatNgn(demoIncident.responseCost)} />
+          <Metric label="Window" value={`${demoIncident.responseWindowHours}h`} />
         </div>
-      </div>
+      </PreviewFrame>
+    );
+  }
+
+  if (resolved === "recovery") {
+    return (
+      <PreviewFrame title="Recovery · 72-hour check">
+        <p className="ops-eyebrow">Next check</p>
+        <p className="mt-2 font-display text-xl font-semibold text-ink">Thursday dawn survey</p>
+        <ul className="mt-4 space-y-2 text-sm text-ink-muted">
+          {demoIncident.crewTasks.map((task) => (
+            <li key={task.id} className="rounded-xl border border-line px-3 py-2">
+              {task.title}
+            </li>
+          ))}
+        </ul>
+      </PreviewFrame>
     );
   }
 
   return (
-    <div className="overflow-hidden border border-line bg-bg-elevated shadow-sm">
-      <PreviewChrome title="Farm overview" />
-      <div className="grid gap-3 p-5 sm:grid-cols-3">
-        <div className="border border-line bg-bg p-4 sm:col-span-1">
-          <p className="text-xs uppercase tracking-wider text-ink-muted">
-            Hectares at risk
-          </p>
-          <p className="mt-2 font-display text-4xl font-semibold text-accent">
-            {demoIncident.affectedHectares}
-          </p>
-          <p className="mt-1 text-xs text-ink-muted">{demoIncident.field.name} · {demoIncident.severity} severity</p>
+    <PreviewFrame title="Command · Kaduna live">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="ops-eyebrow">Active incident</p>
+          <p className="mt-2 font-display text-xl font-semibold text-ink">{demoIncident.field.name}</p>
+          <p className="mt-1 text-sm text-warning">{demoIncident.threat} · High risk</p>
         </div>
-        <div className="border border-line bg-bg p-4 sm:col-span-2">
-          <p className="text-xs uppercase tracking-wider text-ink-muted">
-            Crew tasks
-          </p>
-          <ul className="mt-2 space-y-2 text-sm text-ink-muted">
-            {demoIncident.crewTasks.slice(0, 3).map((task) => (
-              <li key={task.id}>{task.title}</li>
-            ))}
-          </ul>
-        </div>
+        <span className="rounded-full bg-accent px-3 py-1 text-[11px] font-semibold text-gold-ink">
+          Deploy crew
+        </span>
       </div>
-      <div className="border-t border-line px-5 py-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
-          Recent assessments
-        </p>
-        <div className="mt-2 flex items-center justify-between text-sm">
-          <span className="text-ink">{demoAssessment.disease} · {demoAssessment.input.crop}</span>
-          <span className="text-accent">{demoAssessment.confidence}%</span>
-        </div>
+      <div
+        className="mt-5 h-28 rounded-2xl border border-line"
+        style={{
+          background:
+            "radial-gradient(circle at 72% 35%, #ff6b4a 0 5px, transparent 6px), radial-gradient(circle at 58% 60%, #ff6b4a 0 4px, transparent 5px), repeating-linear-gradient(105deg, #17201c 0 18px, #1d2823 19px 20px)",
+        }}
+      />
+      <div className="mt-4 grid grid-cols-3 gap-2">
+        <Metric label="Response" value={formatNgn(demoIncident.responseCost)} />
+        <Metric label="At risk" value={`${demoIncident.affectedHectares} ha`} />
+        <Metric label="Deadline" value="06:12" />
       </div>
+    </PreviewFrame>
+  );
+}
+
+function PreviewFrame({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="ops-panel overflow-hidden rounded-[1.6rem] shadow-[0_28px_60px_rgba(0,0,0,.38)]">
+      <div className="flex items-center gap-2 border-b border-line px-4 py-3">
+        <span className="h-2 w-2 rounded-full bg-accent" aria-hidden />
+        <span className="h-2 w-2 rounded-full bg-white/20" aria-hidden />
+        <span className="h-2 w-2 rounded-full bg-white/10" aria-hidden />
+        <span className="ml-2 text-xs font-medium text-ink-muted">{title}</span>
+      </div>
+      <div className="p-5">{children}</div>
     </div>
   );
 }
 
-function PreviewChrome({ title }: { title: string }) {
+function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center gap-2 border-b border-line bg-accent-deep px-4 py-3">
-      <span className="h-2 w-2 rounded-full bg-gold/80" aria-hidden />
-      <span className="h-2 w-2 rounded-full bg-white/30" aria-hidden />
-      <span className="h-2 w-2 rounded-full bg-white/20" aria-hidden />
-      <span className="ml-2 text-xs font-medium text-white/90">{title}</span>
+    <div className="ops-metric rounded-xl px-3 py-2">
+      <p className="text-[10px] uppercase tracking-wider text-ink-muted">{label}</p>
+      <p className="mt-1 text-sm font-semibold text-ink">{value}</p>
     </div>
   );
 }

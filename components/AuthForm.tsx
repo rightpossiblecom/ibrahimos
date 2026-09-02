@@ -13,6 +13,7 @@ type Props = {
 export function AuthForm({ mode }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [pendingVerify, setPendingVerify] = useState(false);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,8 +27,35 @@ export function AuthForm({ mode }: Props) {
       return;
     }
 
+    if (mode === "signup") {
+      setPendingVerify(true);
+      return;
+    }
+
     setSession(email);
     router.push("/dashboard");
+  }
+
+  if (pendingVerify) {
+    return (
+      <main className="flex min-h-full flex-1 items-center justify-center px-4 py-16">
+        <div className="ops-panel w-full max-w-md rounded-3xl p-8">
+          <p className="ops-eyebrow">{siteConfig.brandName}</p>
+          <h1 className="mt-2 font-display text-3xl font-semibold text-ink">
+            Check your email
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+            We sent a verification link. Open it, then log in to reach Command.
+          </p>
+          <Link
+            href="/login"
+            className="mt-8 inline-flex rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-gold-ink"
+          >
+            Go to log in
+          </Link>
+        </div>
+      </main>
+    );
   }
 
   const title = mode === "login" ? "Sign in" : "Create account";
@@ -37,17 +65,13 @@ export function AuthForm({ mode }: Props) {
 
   return (
     <main className="flex min-h-full flex-1 items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md border border-line bg-bg-elevated p-8">
-        <p className="font-display text-lg font-semibold text-accent">
-          {siteConfig.brandName}
-        </p>
-        <h1 className="mt-2 font-display text-3xl font-semibold text-ink">
-          {title}
-        </h1>
+      <div className="ops-panel w-full max-w-md rounded-3xl p-8">
+        <p className="ops-eyebrow">{siteConfig.brandName}</p>
+        <h1 className="mt-2 font-display text-3xl font-semibold text-ink">{title}</h1>
         <p className="mt-2 text-sm text-ink-muted">
           {mode === "login"
-            ? "Sign in to open your fields, records, and farm assistant."
-            : "Create an account to start a disease check and keep farm records."}
+            ? "Any email and password opens the Kaduna command desk."
+            : "Create an account, then check email before you can open Command."}
         </p>
         <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate>
           <label className="block">
@@ -56,7 +80,7 @@ export function AuthForm({ mode }: Props) {
               name="email"
               type="email"
               autoComplete="email"
-              className="mt-1.5 w-full rounded-md border border-line bg-bg px-3 py-2.5 text-sm outline-none ring-accent focus:ring-2"
+              className="mt-1.5 w-full rounded-md border border-line bg-bg px-3 py-2.5 text-sm outline-none"
             />
           </label>
           <label className="block">
@@ -65,17 +89,17 @@ export function AuthForm({ mode }: Props) {
               name="password"
               type="password"
               autoComplete={mode === "login" ? "current-password" : "new-password"}
-              className="mt-1.5 w-full rounded-md border border-line bg-bg px-3 py-2.5 text-sm outline-none ring-accent focus:ring-2"
+              className="mt-1.5 w-full rounded-md border border-line bg-bg px-3 py-2.5 text-sm outline-none"
             />
           </label>
           {error ? (
-            <p className="text-sm text-red-800" role="alert">
+            <p className="text-sm text-warning" role="alert">
               {error}
             </p>
           ) : null}
           <button
             type="submit"
-            className="w-full rounded-md bg-gold px-4 py-3 text-sm font-semibold text-gold-ink hover:opacity-90"
+            className="w-full rounded-full bg-accent px-4 py-3 text-sm font-semibold text-gold-ink"
           >
             {title}
           </button>

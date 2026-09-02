@@ -11,8 +11,8 @@ export default function HowItWorksPage() {
       <main>
         <MarketingPageHero
           eyebrow="How it works"
-          title="See the field. Get a plan. Keep the season."
-          body="Three steps from a yellow leaf or a planting date to something you can do before the next rain."
+          title="Open an incident. Wait for the plan. Deploy the crew."
+          body="Three steps from field evidence to a priced response with hectares, deadline, and recovery."
         />
         <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
           <ol className="grid gap-8 md:grid-cols-3">
@@ -33,8 +33,8 @@ export default function HowItWorksPage() {
         </section>
       </main>
       <MarketingCtaBand
-        title="Try the three steps on your crop"
-        body="Log in and run a check, or create an account to keep the record."
+        title="Run the Kaduna incident"
+        body="Log in and open the sample. Command fills when the wait ends."
       />
     </>
   );

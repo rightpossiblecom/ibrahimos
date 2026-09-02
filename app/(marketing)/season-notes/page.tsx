@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketingCtaBand } from "@/components/MarketingCtaBand";
 import { MarketingPageHero } from "@/components/MarketingPageHero";
-import { siteConfig } from "@/config/site";
-
 export const metadata: Metadata = { title: "Season notes" };
 
 const notes = [

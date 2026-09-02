@@ -1,11 +1,12 @@
 export const demoFlow = {
   hardcodeVisionDemo: true,
   pipelineSteps: [
-    { id: "ingest", label: "Reading leaf image & farm context" },
-    { id: "vision", label: "Matching local crop disease patterns" },
-    { id: "agronomy", label: "Drafting treatment & timing" },
-    { id: "risk", label: "Estimating yield impact" },
+    { id: "evidence", label: "Reading field evidence and scout notes" },
+    { id: "threat", label: "Classifying the threat and confidence" },
+    { id: "response", label: "Sizing affected hectares and response cost" },
+    { id: "command", label: "Assembling crew, deadline, and recovery" },
   ],
+  analysisMs: 90000,
   conversion: {
     premium: {
       title: "Unlock Premium AI",

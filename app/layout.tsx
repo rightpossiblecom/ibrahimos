@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.brandName}`,
   },
   description: siteConfig.description,
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

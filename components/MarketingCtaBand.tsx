@@ -9,27 +9,28 @@ export function MarketingCtaBand({
   body: string;
 }) {
   return (
-    <section className="border-t border-line bg-accent-deep">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-xl">
-          <h2 className="font-display text-3xl font-semibold text-white">
+    <section className="border-t border-line">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+        <div className="ops-panel overflow-hidden rounded-[2rem] px-6 py-12 sm:px-10">
+          <p className="ops-eyebrow">Open the desk</p>
+          <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold text-ink sm:text-4xl">
             {title}
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-white/80">{body}</p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href={siteConfig.ctas.primary.href}
-            className="rounded-md bg-gold px-5 py-3 text-sm font-semibold text-gold-ink hover:opacity-90"
-          >
-            {siteConfig.ctas.primary.label}
-          </Link>
-          <Link
-            href={siteConfig.ctas.secondary.href}
-            className="rounded-md border border-white/35 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10"
-          >
-            {siteConfig.ctas.secondary.label}
-          </Link>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-muted">{body}</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href={siteConfig.ctas.primary.href}
+              className="rounded-full bg-accent px-5 py-3 text-sm font-semibold text-gold-ink"
+            >
+              {siteConfig.ctas.primary.label}
+            </Link>
+            <Link
+              href="/product"
+              className="rounded-full border border-line bg-panel px-5 py-3 text-sm font-semibold text-ink"
+            >
+              See the product
+            </Link>
+          </div>
         </div>
       </div>
     </section>

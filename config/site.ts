@@ -3,10 +3,11 @@ import type { Assessment, Incident } from "../lib/analyze/types";
 export const siteConfig = {
   brandName: "IbrahimOS",
   shortName: "ibrahim",
-  tagline: "The AI Operating System for African Agriculture.",
+  tagline: "Upload field evidence. Diagnose the threat. Run the response.",
   description:
-    "One intelligent farm assistant for crops, weather, records, and market insight — built for African farmers first.",
-  mission: "Help farmers produce more, lose less, and earn more through AI.",
+    "IbrahimOS is a field incident command system for commercial farm managers. Upload crop evidence, get a diagnosis, then assign crews, costs, and recovery from one desk.",
+  mission:
+    "Help commercial farms stop crop damage before it becomes a season loss.",
   supportEmail: "hello@ibrahimos.top",
   foundedYear: 2025,
   legalEntity: "Ibrahim's Agricultural Enterprise",
@@ -108,16 +109,15 @@ export const siteConfig = {
     tertiary: { label: "Talk to sales", href: "/demo" },
   },
   problems: [
-    "Late disease and pest detection cuts yields.",
-    "Farm records and finances are scattered or missing.",
-    "Trusted local-language expert advice is hard to reach on demand.",
+    "A pest outbreak is found in the field, then lives in WhatsApp photos for half a day.",
+    "Managers get a diagnosis with no crew, no cost, and no deadline attached.",
+    "By the time the spray rig moves, the affected hectares have already grown.",
   ],
-  /** Exactly 4 capability metrics — product capability, not fake traction */
   capabilityStats: [
-    { label: "AI field assistant", value: "Chat + photo" },
-    { label: "Staple crops covered", value: "7+" },
-    { label: "Local languages", value: "5" },
-    { label: "Season tools", value: "Weather · market · tasks" },
+    { label: "Hectares at risk in the live case", value: "18.4 ha" },
+    { label: "Response budget", value: "₦428,000" },
+    { label: "Action window", value: "6 hours" },
+    { label: "Hot zones on North Block 04", value: "3" },
   ],
   launchStrip: {
     eyebrow: "Farms across",
@@ -151,64 +151,64 @@ export const siteConfig = {
   ],
   faqs: [
     {
-      q: "Is IbrahimOS only for large commercial farms?",
-      a: "No. It is designed for smallholder plots and commercial ops — simple enough for a first smartphone, dense enough for managers.",
+      q: "What does IbrahimOS actually do?",
+      a: "You upload field photos and notes. IbrahimOS names the threat, maps the affected hectares, prices the response, assigns crew work, and tracks recovery.",
     },
     {
-      q: "Do I need an internet connection every minute?",
-      a: "The product is designed offline-friendly for field habits. Online sync powers AI analysis and market updates when you are connected.",
+      q: "Who is it for first?",
+      a: "Commercial farm managers running 20–500 hectares. The first desk is a Kaduna maize farm, not a general chatbot.",
     },
     {
-      q: "Which crops and languages are supported?",
-      a: "Staples like maize, rice, cassava, tomato, pepper, yam, and beans — with advice in English, Pidgin, Hausa, Yoruba, and Igbo.",
+      q: "Do I need a Gemini key to try the product?",
+      a: "No. Log in with any email and password. The Kaduna sample runs the full incident without a paid key.",
     },
     {
       q: "How do I start?",
-      a: "Log in or create an account on ibrahimos.top. Free covers chat, records, and weather. Premium unlocks unlimited AI, disease scans, and yield tools.",
+      a: "Create an account, then log in. Open Incidents, use the Kaduna sample, wait for the command plan, and deploy the crew.",
     },
     {
-      q: "How does disease detection work?",
-      a: "Upload a leaf photo or describe symptoms. IbrahimOS returns a diagnosis, treatment steps, and weather timing you can act on the same day.",
+      q: "Is this only a diagnosis tool?",
+      a: "Diagnosis is the first step. The product is the Incident Room after that: zones, budget, deadline, crew, and a 72-hour recovery check.",
     },
   ],
   howItWorks: [
     {
-      title: "Describe the field",
-      body: "Upload a leaf photo or type what you see — crop, location, and symptoms in plain language.",
+      title: "Open an incident",
+      body: "Upload field photos or use the Kaduna sample. Name the crop, the block, and what the scout saw.",
     },
     {
-      title: "Get practical advice",
-      body: "IbrahimOS returns a diagnosis, treatment steps, fertilizer notes, and weather timing you can act on.",
+      title: "Wait for the command plan",
+      body: "IbrahimOS reads the evidence, classifies the threat, sizes the affected area, and prices the response.",
     },
     {
-      title: "Run the season",
-      body: "Track fields, market prices, and weather in one place — then move into financing and buyers as you grow.",
+      title: "Run the recovery",
+      body: "Deploy the crew, tick the work, and watch hectares, cost, and recovery move together on Command.",
     },
   ],
   capabilities: [
     {
-      title: "AI farm assistant",
-      body: "Ask about planting, fertilizer, pests, and market timing in practical language built for African farms.",
+      title: "Incident Room",
+      body: "One live case with severity, zones, deadline, and the next physical action.",
     },
     {
-      title: "Disease & nutrient checks",
-      body: "Photo or symptom intake with confidence, treatment steps, and estimated yield impact.",
+      title: "Evidence intake",
+      body: "Crop photos, scout notes, planting context, and a named field artifact stay on the case.",
     },
     {
-      title: "Fields & records",
-      body: "Keep crops, planting dates, and field status together instead of scattered notebooks.",
+      title: "Response costing",
+      body: "The same incident carries the ₦428,000 response budget and the hectares it is trying to save.",
     },
     {
-      title: "Weather intelligence",
-      body: "Localized forecasts with spray windows, rain risk, and harvest timing cues.",
+      title: "Crew control",
+      body: "Assign scout, spray, buffer, and recovery work, then mark it complete from the desk.",
     },
     {
-      title: "Market prices",
-      body: "Compare staple crop prices across major markets so you know when to sell.",
+      title: "Field weather windows",
+      body: "Spray and scout timing sit next to the incident instead of in a separate weather app.",
     },
     {
-      title: "Tasks & yield hints",
-      body: "Seasonal reminders and yield guidance tied to the crops you actually grow.",
+      title: "Market context",
+      body: "Kaduna maize prices stay visible so the response cost is judged against what the crop is worth.",
     },
   ],
   team: [
@@ -235,13 +235,13 @@ export const siteConfig = {
     {
       name: "Free",
       priceLabel: "₦0",
-      blurb: "Basic AI chat, farm records, and weather for getting started.",
+      blurb: "Open one incident, keep field records, and run the Kaduna command desk.",
       cta: { label: "Log in", href: "/login" },
     },
     {
       name: "Premium",
       priceLabel: "₦4,500/mo",
-      blurb: "Unlimited AI, disease detection, yield prediction, and priority support.",
+      blurb: "Unlimited incident scans, crew plans, and priority agronomy support.",
       cta: { label: "Create account", href: "/signup" },
     },
     {

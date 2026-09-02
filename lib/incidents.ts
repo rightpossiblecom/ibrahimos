@@ -22,9 +22,12 @@ function seedCopy(): Incident {
   };
 }
 
-function getRecoveryState(completion: number): IncidentRecoveryState {
+function getRecoveryState(
+  completion: number,
+  deployedAt?: string,
+): IncidentRecoveryState {
   if (completion >= 100) return "stabilizing";
-  if (completion > 0) return "responding";
+  if (completion > 0 || deployedAt) return "responding";
   return "planned";
 }
 
@@ -44,7 +47,7 @@ function normalizeIncident(incident: Incident): Incident {
     recovery: {
       ...incident.recovery,
       completion,
-      state: getRecoveryState(completion),
+      state: getRecoveryState(completion, incident.recovery.deployedAt),
       lastUpdatedAt: incident.updatedAt,
     },
   };
@@ -128,6 +131,32 @@ export function updateIncidentTask(taskId: string, complete: boolean): Incident 
   };
 
   return persistIncident(next);
+}
+
+export function attachEvidence(assessmentId: string): Incident {
+  const current = getActiveIncident();
+  const evidenceAssessmentIds = current.evidenceAssessmentIds.includes(assessmentId)
+    ? current.evidenceAssessmentIds
+    : [assessmentId, ...current.evidenceAssessmentIds];
+
+  return persistIncident({
+    ...current,
+    assessmentId,
+    evidenceAssessmentIds,
+    updatedAt: new Date().toISOString(),
+  });
+}
+
+export function deployCrew(): Incident {
+  const current = getActiveIncident();
+  return persistIncident({
+    ...current,
+    updatedAt: new Date().toISOString(),
+    recovery: {
+      ...current.recovery,
+      deployedAt: current.recovery.deployedAt ?? new Date().toISOString(),
+    },
+  });
 }
 
 export function resetIncidentDemo(): void {

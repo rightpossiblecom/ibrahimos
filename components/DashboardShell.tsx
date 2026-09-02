@@ -50,8 +50,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                   Precision command
                 </h1>
                 <p className="mt-2 max-w-2xl text-sm text-ink-muted">
-                  Monitor field diagnostics, move through incidents, and pivot into
-                  weather or market intelligence from one workspace shell.
+                  North Block 04, Kaduna. Open incidents, crew work, weather, and market sit on the same desk.
                 </p>
               </div>
               <div className="grid w-full gap-3 sm:w-auto sm:grid-cols-2">
@@ -65,7 +64,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                   <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-accent">
                     Status
                   </p>
-                  <p className="mt-2 text-sm font-medium text-ink">Demo-ready shell online</p>
+                  <p className="mt-2 text-sm font-medium text-ink">Incident desk live</p>
                 </div>
               </div>
             </div>

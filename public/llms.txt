@@ -1,0 +1,25 @@
+IbrahimOS
+
+Upload field evidence. IbrahimOS diagnoses the threat, builds the response plan, and tracks recovery.
+
+Built for commercial farm managers on African farms. The live case is North Block 04 in Kaduna: 86 hectares of maize, fall armyworm across three zones, 18.4 hectares at risk, a ₦428,000 response, and a six-hour action window.
+
+Paths
+/product
+/how-it-works
+/pricing
+/team
+/about
+/season-notes
+/login
+/signup
+/dashboard
+/new
+/fields
+/market
+/weather
+/help
+/blog
+/security
+/privacy
+/terms

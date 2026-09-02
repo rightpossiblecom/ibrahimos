@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { adminDb, isFirebaseAdminConfigured } from "@/lib/firebase-admin";
+import { col } from "@/lib/house";
 import type { Lead } from "@/lib/leads";
 
 export async function POST(request: Request) {
@@ -31,6 +32,6 @@ export async function POST(request: Request) {
     intent: body.intent,
   };
 
-  await adminDb().collection("leads").doc(lead.id).set(lead);
+  await adminDb().collection(col("leads")).doc(lead.id).set(lead);
   return NextResponse.json({ lead });
 }

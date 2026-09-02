@@ -7,7 +7,6 @@ import { homedir } from "node:os";
 import path from "node:path";
 
 const PROJECT_ID = process.env.FIREBASE_PROJECT_ID ?? "ibrahimos-ops";
-const DISPLAY_NAME = "IbrahimOS";
 const storePath = path.join(homedir(), ".config", "configstore", "firebase-tools.json");
 
 function loadStore() {

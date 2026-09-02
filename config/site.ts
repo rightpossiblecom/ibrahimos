@@ -217,18 +217,14 @@ export const siteConfig = {
       role: "Founder & CEO",
       bio: "Founder and CEO of IbrahimOS. Leading the vision for an AI farm operating system that helps African farmers produce more, lose less, and earn more each season.",
       linkedin: "https://www.linkedin.com/in/abdulrazaqme/",
-    },
-    {
-      name: "Ibrahim Nurudeen",
-      role: "Co-founder",
-      bio: "Co-founder of IbrahimOS and Ibrahim's Agricultural Enterprise. Focused on building an AI farm assistant that helps African farmers catch crop problems earlier, keep better records, and earn more each season.",
-      linkedin: "https://www.linkedin.com/in/ibrahim-nurudeen-375b55267/",
+      photo: "/team/abdulrazaq.png",
     },
     {
       name: "Ifeoluwa Johz",
       role: "Co-founder",
       bio: "Co-founder helping shape IbrahimOS product and farmer workflows — disease intake, seasonal guidance, and practical tools cooperatives can run every season.",
       linkedin: "https://www.linkedin.com/in/ifeoluwajohz/",
+      photo: "/team/ifeoluwa.jpg",
     },
   ],
   pricing: [

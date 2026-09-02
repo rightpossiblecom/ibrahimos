@@ -1,6 +1,7 @@
-import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminAuth, adminDb } from "@/lib/firebase-admin";
+import { col } from "@/lib/house";
 
 export const SESSION_COOKIE = "ibrahimos_session";
 const SESSION_DAYS = 30;
@@ -10,17 +11,9 @@ export type AuthUser = {
   email: string;
 };
 
-type UserRecord = {
-  uid: string;
-  email: string;
-  passwordHash: string;
-  passwordSalt: string;
-  createdAt: string;
-};
-
 function sessionSecret(): string {
-  const secret = process.env.IBRAHIMOS_SESSION_SECRET;
-  if (!secret) throw new Error("IBRAHIMOS_SESSION_SECRET is missing.");
+  const secret = process.env.CLOUDGRANT_SESSION_SECRET ?? process.env.IBRAHIMOS_SESSION_SECRET;
+  if (!secret) throw new Error("CLOUDGRANT_SESSION_SECRET is missing.");
   return secret;
 }
 
@@ -28,8 +21,10 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
 
-function hashPassword(password: string, salt: string): string {
-  return scryptSync(password, salt, 64).toString("hex");
+function webApiKey(): string {
+  const key = process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? process.env.CLOUDGRANT_WEB_API_KEY;
+  if (!key) throw new Error("Firebase web API key is missing.");
+  return key;
 }
 
 function signSession(user: AuthUser, exp: number): string {
@@ -58,6 +53,43 @@ function readSession(token: string): AuthUser | null {
   }
 }
 
+function authMessage(code: string | undefined, fallback: string): string {
+  if (code === "auth/email-already-exists" || code === "EMAIL_EXISTS") {
+    return "An account with that email already exists.";
+  }
+  if (
+    code === "EMAIL_NOT_FOUND" ||
+    code === "INVALID_PASSWORD" ||
+    code === "INVALID_LOGIN_CREDENTIALS" ||
+    code === "INVALID_EMAIL"
+  ) {
+    return "Email or password is wrong.";
+  }
+  if (code === "WEAK_PASSWORD" || code === "auth/weak-password") {
+    return "Password must be at least 8 characters.";
+  }
+  return fallback;
+}
+
+async function writeUserDoc(user: AuthUser): Promise<void> {
+  const createdAt = new Date().toISOString();
+  const userRef = adminDb().collection(col("users")).doc(user.uid);
+  const deskRef = userRef.collection("desk").doc("current");
+  const existing = await userRef.get();
+  if (!existing.exists) {
+    await userRef.set({ uid: user.uid, email: user.email, createdAt });
+  }
+  const desk = await deskRef.get();
+  if (!desk.exists) {
+    await deskRef.set({
+      live: false,
+      incident: null,
+      assessments: [],
+      updatedAt: createdAt,
+    });
+  }
+}
+
 export async function createUser(email: string, password: string): Promise<AuthUser> {
   const normalized = normalizeEmail(email);
   if (!normalized || !normalized.includes("@")) {
@@ -67,61 +99,43 @@ export async function createUser(email: string, password: string): Promise<AuthU
     throw new Error("Password must be at least 8 characters.");
   }
 
-  const db = adminDb();
-  const accountRef = db.collection("accounts").doc(normalized);
-  const existing = await accountRef.get();
-  if (existing.exists) {
-    throw new Error("An account with that email already exists.");
+  try {
+    const record = await adminAuth().createUser({
+      email: normalized,
+      password,
+    });
+    const user = { uid: record.uid, email: normalized };
+    await writeUserDoc(user);
+    return user;
+  } catch (error) {
+    const code = typeof error === "object" && error && "code" in error ? String(error.code) : undefined;
+    throw new Error(authMessage(code, error instanceof Error ? error.message : "Could not create the account."));
   }
-
-  const uid = randomBytes(16).toString("hex");
-  const salt = randomBytes(16).toString("hex");
-  const createdAt = new Date().toISOString();
-  const record: UserRecord = {
-    uid,
-    email: normalized,
-    passwordHash: hashPassword(password, salt),
-    passwordSalt: salt,
-    createdAt,
-  };
-
-  const batch = db.batch();
-  batch.create(accountRef, { uid, email: normalized, createdAt });
-  batch.create(db.collection("users").doc(uid), record);
-  batch.set(db.collection("users").doc(uid).collection("desk").doc("current"), {
-    live: false,
-    incident: null,
-    assessments: [],
-    updatedAt: createdAt,
-  });
-  await batch.commit();
-
-  return { uid, email: normalized };
 }
 
 export async function verifyUser(email: string, password: string): Promise<AuthUser> {
   const normalized = normalizeEmail(email);
-  const db = adminDb();
-  const account = await db.collection("accounts").doc(normalized).get();
-  if (!account.exists) {
-    throw new Error("Email or password is wrong.");
+  const res = await fetch(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${webApiKey()}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: normalized, password, returnSecureToken: true }),
+    },
+  );
+  const json = (await res.json()) as {
+    localId?: string;
+    email?: string;
+    error?: { message?: string };
+  };
+
+  if (!res.ok || !json.localId) {
+    throw new Error(authMessage(json.error?.message, "Email or password is wrong."));
   }
 
-  const uid = String(account.data()?.uid ?? "");
-  const user = await db.collection("users").doc(uid).get();
-  const record = user.data() as UserRecord | undefined;
-  if (!record?.passwordHash || !record.passwordSalt) {
-    throw new Error("Email or password is wrong.");
-  }
-
-  const nextHash = hashPassword(password, record.passwordSalt);
-  const left = Buffer.from(nextHash);
-  const right = Buffer.from(record.passwordHash);
-  if (left.length !== right.length || !timingSafeEqual(left, right)) {
-    throw new Error("Email or password is wrong.");
-  }
-
-  return { uid: record.uid, email: record.email };
+  const user = { uid: json.localId, email: json.email ?? normalized };
+  await writeUserDoc(user);
+  return user;
 }
 
 export async function writeSessionCookie(user: AuthUser): Promise<void> {

@@ -1,4 +1,7 @@
-export const firebaseConfig = {
+import { getApp, getApps, initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? process.env.CLOUDGRANT_WEB_API_KEY ?? "",
   authDomain:
     process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ??
@@ -19,6 +22,8 @@ export const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID ?? process.env.CLOUDGRANT_APP_ID ?? "",
 };
 
-export function isFirebaseConfigured(): boolean {
-  return Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
+export function firebaseApp() {
+  return getApps().length ? getApp() : initializeApp(firebaseConfig);
 }
+
+export const auth = getAuth(firebaseApp());

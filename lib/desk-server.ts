@@ -1,5 +1,10 @@
 import type { Assessment, Incident } from "@/lib/analyze/types";
 import { adminDb } from "@/lib/firebase-admin";
+import { col } from "@/lib/house";
+
+function deskRef(uid: string) {
+  return adminDb().collection(col("users")).doc(uid).collection("desk").doc("current");
+}
 
 export type DeskState = {
   live: boolean;
@@ -8,7 +13,7 @@ export type DeskState = {
 };
 
 export async function readDesk(uid: string): Promise<DeskState> {
-  const snap = await adminDb().collection("users").doc(uid).collection("desk").doc("current").get();
+  const snap = await deskRef(uid).get();
   const data = snap.data();
   if (!data) {
     return { live: false, incident: null, assessments: [] };
@@ -28,7 +33,7 @@ export async function writeDesk(uid: string, state: DeskState): Promise<DeskStat
     assessments: Array.isArray(state.assessments) ? state.assessments : [],
   };
 
-  await adminDb().collection("users").doc(uid).collection("desk").doc("current").set({
+  await deskRef(uid).set({
     ...next,
     updatedAt: new Date().toISOString(),
   });

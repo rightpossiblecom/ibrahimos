@@ -1,7 +1,5 @@
 export function formatNgn(amount: number): string {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    maximumFractionDigits: 0,
-  }).format(amount);
+  const digits = Math.round(amount).toString();
+  const grouped = digits.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return `₦${grouped}`;
 }

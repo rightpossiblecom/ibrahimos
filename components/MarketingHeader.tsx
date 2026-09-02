@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandMark } from "@/components/BrandMark";
@@ -23,11 +23,16 @@ const appNav = [
 
 export function MarketingHeader() {
   const [open, setOpen] = useState(false);
+  const [ready, setReady] = useState(false);
   const pathname = usePathname();
   const navGroups = [
     { title: "Public", items: publicNav },
     { title: "Workspace", items: appNav },
   ];
+
+  useEffect(() => {
+    setReady(true);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 border-b border-line/80 bg-bg/88 backdrop-blur-xl">
@@ -41,7 +46,7 @@ export function MarketingHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className={navItemClass(isActive(pathname, item.match))}
+              className={navItemClass(ready && isActive(pathname, item.match))}
             >
               {item.label}
             </Link>
@@ -84,7 +89,7 @@ export function MarketingHeader() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={mobileNavItemClass(isActive(pathname, item.match))}
+                      className={mobileNavItemClass(ready && isActive(pathname, item.match))}
                       onClick={() => setOpen(false)}
                     >
                       {item.label}

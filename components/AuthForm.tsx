@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { siteConfig } from "@/config/site";
-import { signIn, signUp } from "@/lib/session";
+import { clearSession, signIn, signUp } from "@/lib/session";
 
 type Props = {
   mode: "login" | "signup";
@@ -14,6 +14,7 @@ export function AuthForm({ mode }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -31,9 +32,13 @@ export function AuthForm({ mode }: Props) {
     try {
       if (mode === "signup") {
         await signUp(email, password);
-      } else {
-        await signIn(email, password);
+        await clearSession();
+        setCheckEmail(true);
+        setPending(false);
+        return;
       }
+
+      await signIn(email, password);
       router.push("/dashboard");
     } catch (next) {
       setError(next instanceof Error ? next.message : "Could not continue.");
@@ -46,6 +51,27 @@ export function AuthForm({ mode }: Props) {
   const switchLabel =
     mode === "login" ? "Need an account? Sign up" : "Already have an account? Sign in";
 
+  if (mode === "signup" && checkEmail) {
+    return (
+      <main className="flex min-h-full flex-1 items-center justify-center px-4 py-16">
+        <div className="ops-panel w-full max-w-md rounded-3xl p-8">
+          <p className="ops-eyebrow">{siteConfig.brandName}</p>
+          <h1 className="mt-2 font-display text-3xl font-semibold text-ink">Check your email</h1>
+          <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+            We sent a verification note to your inbox. Open that mail, then log in with the email
+            and password you just created. Command stays closed until you sign in.
+          </p>
+          <Link
+            href="/login"
+            className="mt-8 inline-flex w-full justify-center rounded-full bg-accent px-4 py-3 text-sm font-semibold text-gold-ink"
+          >
+            Go to log in
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="flex min-h-full flex-1 items-center justify-center px-4 py-16">
       <div className="ops-panel w-full max-w-md rounded-3xl p-8">
@@ -54,7 +80,7 @@ export function AuthForm({ mode }: Props) {
         <p className="mt-2 text-sm text-ink-muted">
           {mode === "login"
             ? "Sign in with the email and password you created. Your farm desk loads from your account."
-            : "Create a real account. Command stays empty until you open an incident."}
+            : "Create an account. Check your email to verify — Command does not open from signup."}
         </p>
         <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate>
           <label className="block">

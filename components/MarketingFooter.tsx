@@ -7,16 +7,9 @@ const publicLinks = [
   { label: "How it works", href: "/how-it-works" },
   { label: "Pricing", href: "/pricing" },
   { label: "Team", href: "/team" },
-  { label: "Season notes", href: "/season-notes" },
   { label: "About", href: "/about" },
-] as const;
-
-const workspaceLinks = [
-  { label: "Command", href: "/dashboard" },
-  { label: "Incidents", href: "/new" },
-  { label: "Fields", href: "/fields" },
-  { label: "Market", href: "/market" },
-  { label: "Weather", href: "/weather" },
+  { label: "Season notes", href: "/season-notes" },
+  { label: "The farm", href: "/the-farm" },
 ] as const;
 
 const supportLinks = [
@@ -31,7 +24,7 @@ const supportLinks = [
 export function MarketingFooter() {
   return (
     <footer className="mt-auto border-t border-line bg-bg-elevated/90">
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_repeat(3,minmax(0,1fr))]">
+      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_repeat(2,minmax(0,1fr))]">
         <div className="ops-panel rounded-3xl p-5">
           <BrandMark className="text-xs" />
           <p className="ops-eyebrow mt-4">Field operating system</p>
@@ -40,7 +33,7 @@ export function MarketingFooter() {
           </p>
           <p className="mt-5 text-sm text-ink-muted">
             Live at{" "}
-            <a href="https://ibrahimos.top" className="text-ink hover:text-accent">
+            <a href={siteConfig.origin} className="text-ink hover:text-accent">
               {siteConfig.domain}
             </a>
           </p>
@@ -53,8 +46,7 @@ export function MarketingFooter() {
             </a>
           </p>
         </div>
-        <FooterColumn title="Public" links={publicLinks} />
-        <FooterColumn title="Workspace" links={workspaceLinks} />
+        <FooterColumn title="Pages" links={publicLinks} />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
           <FooterColumn title="Support" links={supportLinks} />
           <div className="ops-panel rounded-3xl p-5">
@@ -95,9 +87,6 @@ export function MarketingFooter() {
             </Link>
             <Link href="/terms" className="hover:text-accent">
               Terms
-            </Link>
-            <Link href="/dashboard" className="hover:text-accent">
-              Command
             </Link>
           </div>
         </div>

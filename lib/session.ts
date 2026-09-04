@@ -40,18 +40,17 @@ export async function signIn(email: string, password: string): Promise<Session> 
   return data.user;
 }
 
-export async function signUp(email: string, password: string): Promise<Session> {
+export async function signUp(email: string, password: string): Promise<void> {
   const res = await fetch("/api/auth/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
-  const data = (await res.json()) as { user?: Session; error?: string };
-  if (!res.ok || !data.user) {
+  const data = (await res.json()) as { ok?: boolean; error?: string };
+  if (!res.ok || !data.ok) {
     throw new Error(data.error ?? "Could not create the account.");
   }
-  cached = data.user;
-  return data.user;
+  cached = null;
 }
 
 export async function clearSession(): Promise<void> {

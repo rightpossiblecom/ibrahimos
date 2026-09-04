@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MarketingCtaBand } from "@/components/MarketingCtaBand";
+import { FadeUp } from "@/components/motion";
 import { ProductPreview } from "@/components/ProductPreview";
 import { siteConfig } from "@/config/site";
 import { formatNgn } from "@/lib/format-currency";
@@ -9,6 +10,7 @@ export default function HomePage() {
 
   return (
     <>
+      <FadeUp>
       <section className="relative overflow-hidden border-b border-line">
         <div className="hero-atmosphere absolute inset-0" aria-hidden />
         <div className="hero-grain absolute inset-0" aria-hidden />
@@ -16,10 +18,11 @@ export default function HomePage() {
           <div>
             <p className="ops-eyebrow">Field response system</p>
             <h1 className="mt-5 max-w-xl font-display text-4xl font-semibold tracking-tight text-ink sm:text-6xl">
-              Stop crop damage before it becomes a season loss.
+              Upload field photos. Get a diagnosis. Run the crew.
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted">
-              Upload field photos and notes. IbrahimOS diagnoses the threat, calculates the response, assigns the work, and tracks recovery.
+              IbrahimOS reads the evidence, prices the response, assigns the work, and
+              tracks recovery — so crop damage does not become a season loss.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -39,7 +42,9 @@ export default function HomePage() {
           <ProductPreview variant="command" />
         </div>
       </section>
+      </FadeUp>
 
+      <FadeUp>
       <section className="border-b border-line bg-bg-elevated/70">
         <div className="mx-auto grid max-w-7xl gap-4 px-4 py-8 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
           {siteConfig.capabilityStats.map((stat) => (
@@ -68,7 +73,9 @@ export default function HomePage() {
           ))}
         </ol>
       </section>
+      </FadeUp>
 
+      <FadeUp>
       <section className="border-y border-line bg-bg-elevated/50">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
           <p className="ops-eyebrow">Precision Command</p>
@@ -85,7 +92,9 @@ export default function HomePage() {
           </ul>
         </div>
       </section>
+      </FadeUp>
 
+      <FadeUp>
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
         <p className="ops-eyebrow">Live case</p>
         <h2 className="mt-3 font-display text-3xl font-semibold text-ink">
@@ -98,7 +107,9 @@ export default function HomePage() {
           <ProductPreview variant="incident" />
         </div>
       </section>
+      </FadeUp>
 
+      <FadeUp>
       <section className="border-t border-line bg-bg-elevated/50">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
           <p className="ops-eyebrow">Pricing</p>
@@ -126,7 +137,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </FadeUp>
 
+      <FadeUp>
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
         <p className="ops-eyebrow">FAQ</p>
         <h2 className="mt-3 font-display text-3xl font-semibold text-ink">Common questions</h2>
@@ -139,6 +152,7 @@ export default function HomePage() {
           ))}
         </dl>
       </section>
+      </FadeUp>
 
       <MarketingCtaBand
         title="Open the Kaduna incident"

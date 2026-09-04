@@ -7,6 +7,7 @@ import type { Assessment } from "@/lib/analyze/types";
 import { listAssessments } from "@/lib/assessments";
 import { formatNgn } from "@/lib/format-currency";
 import { DESK_EVENT, resetIncidentDemo } from "@/lib/incidents";
+import { DeskReveal } from "@/components/motion";
 import { useDesk } from "@/lib/use-desk";
 
 const VALUE_PROTECTED = 8_200_000;
@@ -66,7 +67,9 @@ export function OverviewClient() {
       </div>
 
       {incident ? (
-        <LiveDesk incident={incident} assessments={assessments} />
+        <DeskReveal>
+          <LiveDesk incident={incident} assessments={assessments} />
+        </DeskReveal>
       ) : (
         <section className="ops-panel mt-8 rounded-3xl p-6">
           <p className="ops-eyebrow">Desk</p>

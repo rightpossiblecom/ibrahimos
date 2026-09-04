@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FadeUp } from "@/components/motion";
 import { siteConfig } from "@/config/site";
 
 export function MarketingCtaBand({
@@ -9,6 +10,7 @@ export function MarketingCtaBand({
   body: string;
 }) {
   return (
+    <FadeUp>
     <section className="border-t border-line">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <div className="ops-panel overflow-hidden rounded-[2rem] px-6 py-12 sm:px-10">
@@ -34,5 +36,6 @@ export function MarketingCtaBand({
         </div>
       </div>
     </section>
+    </FadeUp>
   );
 }

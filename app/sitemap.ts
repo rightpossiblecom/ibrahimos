@@ -36,7 +36,7 @@ const paths = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const origin = `https://${siteConfig.domain}`;
+  const origin = siteConfig.origin;
   return paths.map((path) => ({
     url: path === "/" ? origin : `${origin}${path}`,
     changeFrequency: "weekly",

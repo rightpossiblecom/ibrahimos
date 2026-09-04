@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion, useReducedMotion } from "framer-motion";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 
@@ -10,25 +11,15 @@ const publicNav = [
   { label: "Product", href: "/product", match: ["/product"] },
   { label: "How it works", href: "/how-it-works", match: ["/how-it-works"] },
   { label: "Pricing", href: "/pricing", match: ["/pricing"] },
+  { label: "About", href: "/about", match: ["/about"] },
   { label: "Team", href: "/team", match: ["/team"] },
-] as const;
-
-const appNav = [
-  { label: "Command", href: "/dashboard", match: ["/dashboard", "/projects/"] },
-  { label: "Incidents", href: "/new", match: ["/new"] },
-  { label: "Fields", href: "/fields", match: ["/fields"] },
-  { label: "Market", href: "/market", match: ["/market"] },
-  { label: "Weather", href: "/weather", match: ["/weather"] },
 ] as const;
 
 export function MarketingHeader() {
   const [open, setOpen] = useState(false);
   const [ready, setReady] = useState(false);
   const pathname = usePathname();
-  const navGroups = [
-    { title: "Public", items: publicNav },
-    { title: "Workspace", items: appNav },
-  ];
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     setReady(true);
@@ -42,15 +33,25 @@ export function MarketingHeader() {
           className="hidden min-w-0 flex-1 items-center justify-center gap-2 xl:flex xl:flex-wrap"
           aria-label="Primary"
         >
-          {[...publicNav, ...appNav].map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={navItemClass(ready && isActive(pathname, item.match))}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {publicNav.map((item) => {
+            const active = ready && isActive(pathname, item.match);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`relative ${navItemClass(active)}`}
+              >
+                {active && !reduce ? (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 rounded-full bg-accent"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                ) : null}
+                <span className="relative z-10">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
           <Link
@@ -81,23 +82,21 @@ export function MarketingHeader() {
           aria-label="Mobile"
         >
           <div className="mx-auto flex max-w-7xl flex-col gap-4">
-            {navGroups.map((group) => (
-              <div key={group.title} className="ops-panel rounded-2xl p-3">
-                <p className="ops-eyebrow px-1">{group.title}</p>
-                <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                  {group.items.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={mobileNavItemClass(ready && isActive(pathname, item.match))}
-                      onClick={() => setOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
+            <div className="ops-panel rounded-2xl p-3">
+              <p className="ops-eyebrow px-1">Pages</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {publicNav.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={mobileNavItemClass(ready && isActive(pathname, item.match))}
+                    onClick={() => setOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
-            ))}
+            </div>
             <div className="flex flex-col gap-2 sm:flex-row">
               <Link
                 href={siteConfig.ctas.primary.href}

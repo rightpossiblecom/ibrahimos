@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { MarketingCtaBand } from "@/components/MarketingCtaBand";
+import { FadeUp } from "@/components/motion";
 import { siteConfig } from "@/config/site";
 import { getProductMedia } from "@/lib/product-assets";
 
 export const metadata: Metadata = {
   title: "Product",
+  description:
+    "Upload field photos. Get a diagnosis. Run the crew. IbrahimOS names the threat, prices the response, and tracks recovery for commercial farm managers.",
 };
 
 export const dynamic = "force-dynamic";
@@ -18,16 +21,17 @@ export default function ProductPage() {
     <>
       <main>
         {/* Hero Section */}
+        <FadeUp>
         <section className="border-b border-line">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
             <p className="ops-eyebrow">Product</p>
             <h1 className="mt-4 max-w-3xl font-display text-4xl font-semibold tracking-tight text-ink sm:text-6xl">
-              Crop threats shouldn't cost you the harvest.
+              Upload field photos. Get a diagnosis. Run the crew.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">
-              IbrahimOS helps commercial farm managers in Nigeria detect crop diseases early, 
-              generate expert-grade response plans instantly, and coordinate field crews to track recovery. 
-              No guesswork, no delayed sprays, and no lost yield.
+              You send evidence from the block. IbrahimOS names the threat, prices the
+              response, and tracks recovery. That keeps a Kaduna maize season from
+              slipping while the spray plan sits in WhatsApp.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -37,14 +41,15 @@ export default function ProductPage() {
                 Log in
               </Link>
               <Link
-                href="/dashboard"
+                href="/signup"
                 className="rounded-full border border-line bg-panel px-4 py-2.5 text-sm font-semibold text-ink"
               >
-                Open Command
+                Sign up
               </Link>
             </div>
           </div>
         </section>
+        </FadeUp>
 
         {/* The Problem Section */}
         <section className="border-b border-line bg-bg-elevated/20">

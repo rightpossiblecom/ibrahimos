@@ -10,7 +10,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ibrahimos.top"),
+  metadataBase: new URL(siteConfig.origin),
   title: {
     default: `${siteConfig.brandName} · ${siteConfig.tagline}`,
     template: `%s · ${siteConfig.brandName}`,

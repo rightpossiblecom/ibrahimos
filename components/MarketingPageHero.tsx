@@ -1,3 +1,5 @@
+import { FadeUp } from "@/components/motion";
+
 export function MarketingPageHero({
   eyebrow,
   title,
@@ -8,6 +10,7 @@ export function MarketingPageHero({
   body: string;
 }) {
   return (
+    <FadeUp>
     <section className="border-b border-line bg-bg-elevated">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
         <p className="text-sm font-semibold uppercase tracking-wider text-accent">
@@ -21,5 +24,6 @@ export function MarketingPageHero({
         </p>
       </div>
     </section>
+    </FadeUp>
   );
 }

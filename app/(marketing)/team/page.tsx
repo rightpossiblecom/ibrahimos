@@ -17,7 +17,7 @@ export default function TeamPage() {
     legalName: siteConfig.legalEntity,
     foundingDate: String(siteConfig.foundedYear),
     email: siteConfig.supportEmail,
-    url: `https://${siteConfig.domain}/team`,
+    url: `${siteConfig.origin}/team`,
     address: {
       "@type": "PostalAddress",
       streetAddress: "53, Behind Yoruba Chief Palace Gwako",
@@ -35,7 +35,7 @@ export default function TeamPage() {
       name: member.name,
       jobTitle: member.role,
       description: member.bio,
-      image: member.photo ? `https://${siteConfig.domain}${member.photo}` : undefined,
+      image: member.photo ? `${siteConfig.origin}${member.photo}` : undefined,
       sameAs: member.linkedin,
       worksFor: {
         "@type": "Organization",
